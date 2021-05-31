@@ -1,0 +1,17 @@
+extern const GeoLayout beat_push_geo[];
+extern Lights1 beat_push_f3d_material_lights;
+extern Lights1 beat_push_f3d_material_001_lights;
+extern u8 beat_push_beatblock_ci8[];
+extern u8 beat_push_beatblock_ci8_pal_rgba16[];
+extern u8 beat_push_beattop_ci8[];
+extern u8 beat_push_beattop_ci8_pal_rgba16[];
+extern Vtx beat_push_Cube_mesh_layer_1_vtx_0[10];
+extern Gfx beat_push_Cube_mesh_layer_1_tri_0[];
+extern Vtx beat_push_Cube_mesh_layer_1_vtx_1[8];
+extern Gfx beat_push_Cube_mesh_layer_1_tri_1[];
+extern Gfx mat_beat_push_f3d_material[];
+extern Gfx mat_revert_beat_push_f3d_material[];
+extern Gfx mat_beat_push_f3d_material_001[];
+extern Gfx mat_revert_beat_push_f3d_material_001[];
+extern Gfx beat_push_Cube_mesh_layer_1[];
+extern Gfx beat_push_material_revert_render_settings[];
