@@ -42,6 +42,10 @@ extern u8 *gGfxPoolEnd;
 extern struct GfxPool *gGfxPool;
 extern u8 gControllerBits;
 extern u8 gIsConsole;
+extern int gDynamicFogPos;
+extern u8 gDynamicFogColor[2];
+extern int gFogCloseDist;
+
 #ifdef WIDE
 extern u8 gWidescreen;
 #endif

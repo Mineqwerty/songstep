@@ -82,3 +82,7 @@ UNUSED static const u64 binid_18 = 18;
 
 #include "beat_push/model.inc.c"
 #include "beat_push/collision.inc.c"
+#include "bowstring/model.inc.c"
+#include "bowstring/collision.inc.c"
+#include "piano_key/model.inc.c"
+#include "piano_key/collision.inc.c"

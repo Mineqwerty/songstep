@@ -13,6 +13,7 @@
 #include "mario_step.h"
 #include "save_file.h"
 #include "rumble_init.h"
+#include "object_helpers.h"
 
 void play_flip_sounds(struct MarioState *m, s16 frame1, s16 frame2, s16 frame3) {
     s32 animFrame = m->marioObj->header.gfx.animInfo.animFrame;
@@ -2039,6 +2040,40 @@ s32 act_special_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
+struct SpawnParticlesInfo SuccessMist = { 3, 20, MODEL_MIST, 20, 10, 5, 0, 0, 0, 30, 30.0f, 1.5f };
+
+s32 act_drum_jump(struct MarioState *m) {
+    
+    update_air_without_turn(m);
+    //print_text_fmt_int(100, 100, "%d", m->actionState);
+    switch (perform_air_step(m, 0)) {
+        case AIR_STEP_LANDED:
+            if (m->actionState++ == 0) {
+                play_sound(SOUND_GENERAL_SHORT_POUND1, gGlobalSoundSource);
+                m->vel[1] = 20.0f;
+                switch (gMarioState->beatCount) {
+                    case 0: set_mario_animation(m, MARIO_ANIM_SLOW_LONGJUMP); break;
+                    case 1: set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_FALL); break;
+                    case 2: set_mario_animation(m, MARIO_ANIM_BACKFLIP); cur_obj_spawn_particles(&SuccessMist); 
+                    break;
+                }
+                if (gMarioState->beatCount++ >= 2) {
+                    m->vel[1] = 100.0f;
+                    gMarioState->beatCount = 0;
+                }
+            } else {
+                set_mario_action(m, ACT_DRUM_JUMP_IDLE, 0);
+            }
+            play_mario_landing_sound(m, SOUND_ACTION_TERRAIN_LANDING);
+            break;
+
+        case AIR_STEP_HIT_WALL:
+            mario_bonk_reflection(m, TRUE);
+            break;
+    }
+    
+}
+
 s32 check_common_airborne_cancels(struct MarioState *m) {
     if (m->pos[1] < m->waterLevel - 100) {
         return set_water_plunge_action(m);
@@ -2112,6 +2147,7 @@ s32 mario_execute_airborne_action(struct MarioState *m) {
         case ACT_RIDING_HOOT:          cancel = act_riding_hoot(m);          break;
         case ACT_TOP_OF_POLE_JUMP:     cancel = act_top_of_pole_jump(m);     break;
         case ACT_VERTICAL_WIND:        cancel = act_vertical_wind(m);        break;
+        case ACT_DRUM_JUMP:        cancel = act_drum_jump(m);        break;
     }
     /* clang-format on */
 

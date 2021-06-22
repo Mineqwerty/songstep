@@ -554,6 +554,8 @@ void bhv_volcano_trap_loop(void);
 
 void beat_push_init(void);
 void beat_push_loop(void);
+void bowstring_loop(void);
+void piano_key_loop(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

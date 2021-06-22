@@ -565,6 +565,8 @@
 #define MODEL_TRAJECTORY_MARKER_BALL          0xE1        // bowling_ball_track_geo - duplicate used in SSL Pyramid small sized and as a track ball
 
 #define MODEL_BEAT_PUSH          0xFF 
+#define MODEL_BOWSTRING          0xFE
+#define MODEL_PIANO_KEY          0xFD
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

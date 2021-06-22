@@ -16,6 +16,8 @@
 #include "sound_init.h"
 #include "surface_terrains.h"
 #include "rumble_init.h"
+#include "game/game_init.h"
+#include "object_helpers.h"
 
 s32 check_common_idle_cancels(struct MarioState *m) {
     mario_drop_held_object(m);
@@ -53,7 +55,10 @@ s32 check_common_idle_cancels(struct MarioState *m) {
     }
 
     if (m->input & INPUT_Z_DOWN) {
-        return set_mario_action(m, ACT_START_CROUCHING, 0);
+        return set_mario_action(m, ACT_DRUM_JUMP_IDLE, 0);
+    }
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        return set_mario_action(m, ACT_DRUM_JUMP_IDLE, 0);
     }
 
     return FALSE;
@@ -96,7 +101,11 @@ s32 check_common_hold_idle_cancels(struct MarioState *m) {
     }
 
     if (m->input & INPUT_Z_DOWN) {
-        return drop_and_set_mario_action(m, ACT_START_CROUCHING, 0);
+        return drop_and_set_mario_action(m, ACT_DRUM_JUMP_IDLE, 0);
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_TRIG) {
+        return set_mario_action(m, ACT_DRUM_JUMP_IDLE, 0);
     }
 
     return FALSE;
@@ -1079,7 +1088,95 @@ s32 act_first_person(struct MarioState *m) {
     set_mario_animation(m, MARIO_ANIM_FIRST_PERSON);
     return FALSE;
 }
+struct SpawnParticlesInfo StringsHit = { 3, 5, MODEL_SPARKLES, 5, 10, 5, 10, 0, 0, 30, 30.0f, 1.5f };
+struct SpawnParticlesInfo SaxHit = { 3, 5, MODEL_RED_FLAME, 5, 10, 5, 10, 0, 0, 30, 30.0f, 1.5f };
+s32 act_drum_jump_idle(struct MarioState *m) {
+    
+    int drumHitDetect;
+    int saxHitDetect;
+    if (gCurrLevelNum == LEVEL_CCM) {
+        drumHitDetect = general_hit_detection(0, A_BUTTON);
+        saxHitDetect = sax_hit_detection(4, B_BUTTON);
+    }
+    else {
+        drumHitDetect = general_hit_detection(11, A_BUTTON);
+    }
+    int stringsHitDetect = strings_hit_detection(1, B_BUTTON);
+    
+    int beatFogValue;
+    if (m->beatCount == 0) {
+        set_mario_animation(m, MARIO_ANIM_RIDING_SHELL);
+    }
 
+
+    switch (m->beatCount) {
+        default: beatFogValue = 200; break;
+        
+        case 2: beatFogValue = 800; break;
+        case 5: beatFogValue = 800; break;
+    }
+
+if (gMarioState->input & INPUT_Z_DOWN || gPlayer1Controller->buttonDown & L_TRIG) {
+    //h
+}
+    else {
+        gMarioState->beatCount = 0;
+        return gMarioState->action = ACT_STOP_CROUCHING;
+    }
+if (m->lvlOneStars[2] == 1) {
+    if (stringsHitDetect == TRUE) {
+        cur_obj_spawn_particles(&StringsHit);
+        play_sound(SOUND_GENERAL_BIG_CLOCK, gGlobalSoundSource);
+        fog_flare(5, 5, 0, beatFogValue + gFogCloseDist, 1);
+         if (m->beatCount == 5 ) {
+             m->action = ACT_SLIDE_KICK;
+             m->forwardVel = 190.0f;
+             m->vel[1] = 40.0f;
+             m->beatCount = 0;
+             return;
+         }
+         else {
+             m->marioObj->header.gfx.animInfo.animFrame = 0;
+             set_mario_animation(m, MARIO_ANIM_BREAKDANCE);
+             m->beatCount += 1;
+         }
+         
+         
+    }
+}
+
+if (m->lvlOneStars[21] == 1) {
+    if (saxHitDetect == TRUE) {
+        m->saxSpeed = 64;
+        cur_obj_spawn_particles(&SaxHit);
+        play_sound(SOUND_ENV_METAL_BOX_PUSH, gGlobalSoundSource);
+        set_mario_action(m, ACT_RIDING_SHELL_GROUND, 0);
+    }
+}
+
+if (m->lvlOneStars[16] == 1 && gCurrLevelNum == LEVEL_CCM) {
+    if (drumHitDetect == TRUE) {
+        fog_flare(5, 0, 0, beatFogValue, 1);
+        return gMarioState->action = ACT_DRUM_JUMP;
+    }
+    else if (drumHitDetect == 2) {
+        gMarioState->beatCount = 0;
+        return gMarioState->action = ACT_SOFT_BONK;
+    }
+}
+if (m->lvlOneStars[0] == 1 && gCurrLevelNum == LEVEL_WF) {
+    if (drumHitDetect == TRUE) {
+        fog_flare(5, 0, 0, beatFogValue, 1);
+        return gMarioState->action = ACT_DRUM_JUMP;
+    }
+    else if (drumHitDetect == 2) {
+        gMarioState->beatCount = 0;
+        return gMarioState->action = ACT_SOFT_BONK;
+    }
+}
+    return FALSE;
+
+}
 s32 check_common_stationary_cancels(struct MarioState *m) {
     if (m->pos[1] < m->waterLevel - 100) {
         if (m->action == ACT_SPAWN_SPIN_LANDING) {
@@ -1152,6 +1249,7 @@ s32 mario_execute_stationary_action(struct MarioState *m) {
         case ACT_BRAKING_STOP:            cancel = act_braking_stop(m);                     break;
         case ACT_BUTT_SLIDE_STOP:         cancel = act_butt_slide_stop(m);                  break;
         case ACT_HOLD_BUTT_SLIDE_STOP:    cancel = act_hold_butt_slide_stop(m);             break;
+        case ACT_DRUM_JUMP_IDLE:    cancel = act_drum_jump_idle(m);             break;
     }
     /* clang-format on */
 

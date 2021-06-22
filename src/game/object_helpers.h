@@ -217,6 +217,7 @@ void cur_obj_set_pos_via_transform(void);
 void cur_obj_spawn_particles(struct SpawnParticlesInfo *info);
 s16 cur_obj_reflect_move_angle_off_wall(void);
 
+
 #define WAYPOINT_FLAGS_END -1
 #define WAYPOINT_FLAGS_INITIALIZED 0x8000
 #define WAYPOINT_MASK_00FF 0x00FF
@@ -293,6 +294,15 @@ void enable_time_stop_including_mario(void);
 void disable_time_stop_including_mario(void);
 s32 cur_obj_check_interacted(void);
 void cur_obj_spawn_loot_blue_coin(void);
+Gfx *change_fog_pos(s32 callContext, struct GraphNode *node, UNUSED Mat4 *c);
+s32 detect_instrument_hits(u8 instrumentID, u16 trueTrigger, struct Object *beatObj);
+s32 detect_instrument_hold(u8 instrumentID, u16 trueTrigger, struct Object *beatObj);
+s32 general_hit_detection(u8 instrumentID, s32 trueTrigger);
+s32 strings_hit_detection(u8 instrumentID, s32 trueTrigger);
+s32 piano_hit_detection(u8 instrumentID, s32 trueTrigger);
+s32 sax_hit_detection(u8 instrumentID, s32 trueTrigger);
+s32 fog_flare(u8 fogColor0, u8 fogColor1, u8 fogColor2, int fogDistance, int speedModifier);
+void update_wallcrawl(void);
 
 #ifndef VERSION_JP
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);

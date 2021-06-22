@@ -1714,9 +1714,45 @@ void func_sh_8025574C(void) {
 /**
  * Main function for executing Mario's behavior.
  */
+
+
+
+
+
+
 s32 execute_mario_action(UNUSED struct Object *o) {
     s32 inLoop = TRUE;
 
+    int walkVolume;
+/*
+    if (gMarioState->action == ACT_WALKING) {
+        walkVolume = 130;
+    }
+    else {
+        walkVolume = 0;
+    }
+    if (gMarioState->action != ACT_FALL_AFTER_STAR_GRAB && gMarioState->action != ACT_STAR_DANCE_NO_EXIT) {
+    play_secondary_music(0x18, 255, walkVolume, 0);
+    }
+
+    */
+    if (gPlayer1Controller->buttonDown & D_JPAD) {
+        gMarioState->vel[1] = 20.0f;
+    }
+    
+    for (int i; i<11; i++) {
+    gMarioState->curInstrument[i] = 0;
+    }
+    
+
+if (gMarioObject->platform != NULL) {
+    gMarioState->lastPlatform = gMarioObject->platform;
+}
+
+//gMarioState->flags |= MARIO_SAX_BLAST;
+//print_text_fmt_int(20, 20, "BEAT NUM %d", gMarioState->beatCount);
+
+fog_flare(0, 0, 0, 0, 1);
 
     if (gMarioState->action) {
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -1771,7 +1807,10 @@ s32 execute_mario_action(UNUSED struct Object *o) {
         update_mario_health(gMarioState);
         update_mario_info_for_cam(gMarioState);
         mario_update_hitbox_and_cap_model(gMarioState);
-
+        gMarioState->drumBeat = -1;
+        gMarioState->stringsBeat = 0;
+        gMarioState->pianoBeat = 0;
+        gMarioState->saxBeat = 0;
         // Both of the wind handling portions play wind audio only in
         // non-Japanese releases.
         if (gMarioState->floor->type == SURFACE_HORIZONTAL_WIND) {

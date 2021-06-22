@@ -195,6 +195,8 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
 
     LOAD_MODEL_FROM_GEO(MODEL_BEAT_PUSH,      beat_push_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_BOWSTRING,      bowstring_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_PIANO_KEY,      piano_key_geo),
     RETURN(),
 };
 

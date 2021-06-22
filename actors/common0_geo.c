@@ -29,3 +29,5 @@
 #include "koopa_shell/geo.inc.c"
 
 #include "beat_push/geo.inc.c"
+#include "bowstring/geo.inc.c"
+#include "piano_key/geo.inc.c"

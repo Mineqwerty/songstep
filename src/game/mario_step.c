@@ -282,8 +282,16 @@ static s32 perform_ground_quarter_step(struct MarioState *m, Vec3f nextPos) {
         floorHeight = waterLevel;
         floor = &gWaterSurfacePseudoFloor;
         floor->originOffset = floorHeight; //! Wrong origin offset (no effect)
+        
     }
-
+/*
+    if ((m->flags & MARIO_SAX_BLAST) && floorHeight < waterLevel) {
+        floorHeight = waterLevel;
+        floor = &gWaterSurfacePseudoFloor;
+        floor->originOffset = floorHeight; //! Wrong origin offset (no effect)
+        m->action = ACT_WALKING;
+    }
+*/
     if (nextPos[1] > floorHeight + 100.0f) {
         if (nextPos[1] + 160.0f >= ceilHeight) {
             return GROUND_STEP_HIT_WALL_STOP_QSTEPS;
@@ -338,6 +346,30 @@ s32 perform_ground_step(struct MarioState *m) {
     m->terrainSoundAddend = mario_get_terrain_sound_addend(m);
     vec3f_copy(m->marioObj->header.gfx.pos, m->pos);
     vec3s_set(m->marioObj->header.gfx.angle, 0, m->faceAngle[1], 0);
+
+    if (stepResult == GROUND_STEP_HIT_WALL_CONTINUE_QSTEPS) {
+        stepResult = GROUND_STEP_HIT_WALL;
+    }
+    return stepResult;
+}
+
+s32 perform_wallcrawl_step(struct MarioState *m) {
+    s32 i;
+    u32 stepResult;
+    Vec3f intendedPos;
+
+    for (i = 0; i < 4; i++) {
+        intendedPos[0] = m->pos[0] + m->floor->normal.y * (m->vel[0] / 4.0f);
+        intendedPos[2] = m->pos[2] + m->floor->normal.y * (m->vel[2] / 4.0f);
+        intendedPos[1] = m->pos[1];
+
+        stepResult = perform_ground_quarter_step(m, intendedPos);
+        if (stepResult == GROUND_STEP_LEFT_GROUND || stepResult == GROUND_STEP_HIT_WALL_STOP_QSTEPS) {
+            break;
+        }
+    }
+
+    m->terrainSoundAddend = mario_get_terrain_sound_addend(m);
 
     if (stepResult == GROUND_STEP_HIT_WALL_CONTINUE_QSTEPS) {
         stepResult = GROUND_STEP_HIT_WALL;
@@ -426,7 +458,14 @@ s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepAr
         floor = &gWaterSurfacePseudoFloor;
         floor->originOffset = floorHeight; //! Incorrect origin offset (no effect)
     }
+/*
+    if ((m->flags & MARIO_SAX_BLAST) && floorHeight < waterLevel) {
+        floorHeight = waterLevel;
+        floor = &gWaterSurfacePseudoFloor;
+        floor->originOffset = floorHeight; //! Incorrect origin offset (no effect)
+    }
 
+*/
     //! This check uses f32, but findFloor uses short (overflow jumps)
     if (nextPos[1] <= floorHeight) {
         if (ceilHeight - floorHeight > 160.0f) {

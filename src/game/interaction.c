@@ -769,7 +769,7 @@ u32 interact_water_ring(struct MarioState *m, UNUSED u32 interactType, struct Ob
 u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct Object *o) {
     u32 starIndex;
     u32 starGrabAction = ACT_STAR_DANCE_EXIT;
-    u32 noExit = (o->oInteractionSubtype & INT_SUBTYPE_NO_EXIT) != 0;
+    u32 noExit = 1;
     u32 grandStar = (o->oInteractionSubtype & INT_SUBTYPE_GRAND_STAR) != 0;
 
     if (m->health >= 0x100) {
@@ -812,21 +812,19 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 #else
         starIndex = (o->oBehParams >> 24) & 0x1F;
 #endif
+        gMarioState->lvlOneStars[(o->oBehParams >> 24) & 0xFF] = 1;
         save_file_collect_star_or_key(m->numCoins, starIndex);
 
         m->numStars =
             save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
 
-        if (!noExit) {
-            drop_queued_background_music();
-            fadeout_level_music(126);
-        }
-
+        
         play_sound(SOUND_MENU_STAR_SOUND, m->marioObj->header.gfx.cameraToObject);
 #ifndef VERSION_JP
         update_mario_sound_and_camera(m);
 #endif
-
+        gFogCloseDist = 200 * m->numStars;
+        gDynamicFogPos = gFogCloseDist;
         if (grandStar) {
             return set_mario_action(m, ACT_JUMBO_STAR_CUTSCENE, 0);
         }

@@ -2889,3 +2889,477 @@ void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 o
     o->oPosY = objectPosY;
 }
 #endif
+
+Gfx *change_fog_pos(s32 callContext, struct GraphNode *node, UNUSED Mat4 *c) {
+    struct GraphNodeGenerated *asGenerated = (struct GraphNodeGenerated *) node;
+    Gfx *gfx = NULL;
+
+    if (callContext == GEO_CONTEXT_RENDER) {
+        Gfx *gfxHead = gfx = alloc_display_list(3 * sizeof(*gfx));
+
+        gDPSetFogColor(gfxHead++, gDynamicFogColor[0], gDynamicFogColor[1], gDynamicFogColor[2], 255);
+	gSPFogPosition(gfxHead++, gDynamicFogPos, 1000 + gFogCloseDist);
+            gSPEndDisplayList(gfxHead++);
+        
+        asGenerated->fnNode.node.flags = (asGenerated->fnNode.node.flags & 0xFF) | (LAYER_OPAQUE << 8);
+    }
+    return gfx;
+}
+
+s32 fog_flare(u8 fogColor0, u8 fogColor1, u8 fogColor2, int fogDistance, int speedModifier) {
+    static int fogTimer;
+    static int fogDistanceCopy;
+    if (fogDistance > 999) {
+        fogDistance = 999;
+    }
+    if (fogDistance > 0) {
+    fogDistanceCopy = fogDistance;
+    }
+    if (fogDistanceCopy > 0) {
+        if (gDynamicFogPos < fogDistanceCopy && fogTimer != 5) {
+        gDynamicFogPos += 200;
+        if (fogColor0 != 0) { gDynamicFogColor[0] = fogColor0;}
+        if (fogColor1 != 0) { gDynamicFogColor[1] = fogColor1;}
+        if (fogColor2 != 0) { gDynamicFogColor[2] = fogColor2;}
+        }
+        else if (fogTimer < 5){
+            fogTimer += 1;
+        }
+        else {
+            if (gDynamicFogPos > gFogCloseDist) {
+                gDynamicFogPos -= 50;
+                if (gDynamicFogPos <= gFogCloseDist) {
+                    gDynamicFogPos = gFogCloseDist;
+                    fogTimer = 0;
+                    gDynamicFogColor[0] = 0;
+                gDynamicFogColor[1] = 0;
+                gDynamicFogColor[2] = 0;
+                    fogDistanceCopy = 0;
+                }
+            }
+            else {
+                gDynamicFogPos = gFogCloseDist;
+                    fogTimer = 0;
+                    gDynamicFogColor[0] = 0;
+                gDynamicFogColor[1] = 0;
+                gDynamicFogColor[2] = 0;
+                    fogDistanceCopy = 0;
+            }
+        }
+    }
+}
+s32 general_hit_detection(u8 instrumentID, s32 trueTrigger) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+
+    
+    /*
+    print_text_fmt_int(20, 20, "CURINST %d", gMarioState->drumBeat);
+    print_text_fmt_int(20, 40, "BEAT ID %d", beatID);
+    print_text_fmt_int(20, 60, "TIMER %d", beatTimer);
+    print_text_fmt_int(20, 80, "L TIMER %d", lateBeatTimer);
+    
+    ID 0: NONE
+    ID 1: EARLY BEAT
+    ID 2: LATE BEAT
+    */
+    if (gPlayer1Controller->buttonPressed & trueTrigger && beatID == 0) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        return 2;
+    }
+
+    if (gMarioState->drumBeat == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+        
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        //return 2;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->drumBeat == instrumentID) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+
+return FALSE;
+
+}
+
+s32 strings_hit_detection(u8 instrumentID, s32 trueTrigger) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+
+
+    if (gPlayer1Controller->buttonPressed & trueTrigger && beatID == 0) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        return 2;
+    }
+
+    if (gMarioState->stringsBeat == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+        
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        //return 2;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->stringsBeat == instrumentID) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+
+return FALSE;
+
+}
+
+s32 piano_hit_detection(u8 instrumentID, s32 trueTrigger) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+
+    
+    /*
+    print_text_fmt_int(20, 20, "CURINST %d", gMarioState->pianoBeat);
+    print_text_fmt_int(20, 40, "BEAT ID %d", beatID);
+    print_text_fmt_int(20, 60, "TIMER %d", beatTimer);
+    print_text_fmt_int(20, 80, "L TIMER %d", lateBeatTimer);
+    
+    ID 0: NONE
+    ID 1: EARLY BEAT
+    ID 2: LATE BEAT
+    */
+    if (gPlayer1Controller->buttonPressed & trueTrigger && beatID == 0) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        return 2;
+    }
+
+    if (gMarioState->pianoBeat == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+        
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        //return 2;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->pianoBeat == instrumentID) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+
+return FALSE;
+
+}
+
+s32 sax_hit_detection(u8 instrumentID, s32 trueTrigger) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+
+    
+    /*
+    print_text_fmt_int(20, 20, "CURINST %d", gMarioState->saxBeat);
+    print_text_fmt_int(20, 40, "BEAT ID %d", beatID);
+    print_text_fmt_int(20, 60, "TIMER %d", beatTimer);
+    print_text_fmt_int(20, 80, "L TIMER %d", lateBeatTimer);
+    
+    ID 0: NONE
+    ID 1: EARLY BEAT
+    ID 2: LATE BEAT
+    */
+    if (gPlayer1Controller->buttonPressed & trueTrigger && beatID == 0) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        return 2;
+    }
+
+    if (gMarioState->saxBeat == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+        
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        lateBeatTimer = 0;
+        beatTimer = 0;
+        beatID = 0;
+        //return 2;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->saxBeat == instrumentID) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        beatTimer = 0;
+        lateBeatTimer = 0;
+        beatID = 0;
+        return TRUE;
+    }
+
+return FALSE;
+
+}
+
+s32 detect_instrument_hits(u8 instrumentID, u16 trueTrigger, struct Object *beatObj) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+    
+    if (gMarioState->action == ACT_FREEFALL) {
+        gMarioState->lastPlatform = 0;
+        return;
+    }
+
+    /*
+    ID 0: NONE
+    ID 1: EARLY BEAT
+    ID 2: LATE BEAT
+    */
+    if (gPlayer1Controller->buttonPressed & trueTrigger && gMarioObject->platform == beatObj) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+print_text_fmt_int(20, 40, "TIMER %d", beatTimer);
+print_text_fmt_int(20, 20, "LATE TIMER %d", lateBeatTimer);
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        beatID = 0;
+        gMarioState->lastPlatform = 0;
+    }
+
+    if (gMarioState->curInstrument[0] == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        beatID = 0;
+        gMarioState->lastPlatform = 0;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->curInstrument[0] == instrumentID) {
+        gMarioState->pos[1] += 20.0f;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        gMarioState->pos[1] += 20.0f;
+        return TRUE;
+    }
+    else if (gPlayer1Controller->buttonPressed & trueTrigger && lateBeatTimer == 0) {
+        return 2;
+    }
+
+return FALSE;
+
+}
+
+s32 detect_instrument_hold(u8 instrumentID, u16 trueTrigger, struct Object *beatObj) {
+    static int beatTimer;
+    static int lateBeatTimer;
+    static int beatID;
+    static int hold;
+    
+    if (gMarioState->action == ACT_FREEFALL) {
+        gMarioState->lastPlatform = 0;
+        return;
+    }
+
+    /*
+    ID 0: NONE
+    ID 1: EARLY BEAT
+    ID 2: LATE BEAT
+    */
+    if (gPlayer1Controller->buttonPressed & trueTrigger && gMarioObject->platform == beatObj) {
+        beatTimer = 6;
+        beatID = 1;
+    }
+
+    if (beatTimer > 0){
+    beatTimer -= 1;
+    }
+    else if (beatID == 1) {
+        beatID = 0;
+        gMarioState->lastPlatform = 0;
+    }
+
+    if (gMarioState->curInstrument[1] == instrumentID) {
+        lateBeatTimer = 6;
+        beatID = 2;
+    }
+
+    if (lateBeatTimer > 0) {
+        lateBeatTimer -= 1;
+    }
+    else if (beatID == 2) {
+        beatID = 0;
+        gMarioState->lastPlatform = 0;
+    }
+
+
+    if (beatTimer > 0 && beatTimer != 6 && gMarioState->curInstrument[1] == instrumentID) {
+        hold = 1;
+        return TRUE;
+    }
+    else if (lateBeatTimer > 0 && gPlayer1Controller->buttonPressed & trueTrigger) {
+        hold = 1;
+        return TRUE;
+    }
+    else if (hold == 1 && gPlayer1Controller->buttonDown & trueTrigger) {
+        return TRUE;
+    }
+    else if (gPlayer1Controller->buttonPressed & trueTrigger && lateBeatTimer == 0) {
+        return 2;
+    }
+
+hold = 0;
+return FALSE;
+
+}
+
+void update_wallcrawl(void) {
+    
+        if (gMarioObject->header.gfx.pos[0] > gMarioState->pos[0]) {
+            gMarioObject->header.gfx.pos[0] -= 20.0f;
+            if (gMarioObject->header.gfx.pos[0] <= gMarioState->pos[0]) {
+                gMarioObject->header.gfx.pos[0] = gMarioState->pos[0];
+            }
+        }
+        else if (gMarioObject->header.gfx.pos[0] < gMarioState->pos[0]) {
+            gMarioObject->header.gfx.pos[0] += 20.0f;
+            if (gMarioObject->header.gfx.pos[0] >= gMarioState->pos[0]) {
+                gMarioObject->header.gfx.pos[0] = gMarioState->pos[0];
+            }
+        }
+
+        if (gMarioObject->header.gfx.pos[1] > gMarioState->pos[1]) {
+            gMarioObject->header.gfx.pos[1] -= 20.0f;
+            if (gMarioObject->header.gfx.pos[1] <= gMarioState->pos[1]) {
+                gMarioObject->header.gfx.pos[1] = gMarioState->pos[1];
+            }
+        }
+        else if (gMarioObject->header.gfx.pos[1] < gMarioState->pos[1]) {
+            gMarioObject->header.gfx.pos[1] += 20.0f;
+            if (gMarioObject->header.gfx.pos[1] >= gMarioState->pos[1]) {
+                gMarioObject->header.gfx.pos[1] = gMarioState->pos[1];
+            }
+        }
+
+        if (gMarioObject->header.gfx.pos[2] > gMarioState->pos[2]) {
+            gMarioObject->header.gfx.pos[2] -= 20.0f;
+            if (gMarioObject->header.gfx.pos[2] <= gMarioState->pos[2]) {
+                gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
+            }
+        }
+        else if (gMarioObject->header.gfx.pos[2] < gMarioState->pos[2]) {
+            gMarioObject->header.gfx.pos[2] += 20.0f;
+            if (gMarioObject->header.gfx.pos[2] >= gMarioState->pos[2]) {
+                gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
+            }
+        }
+    
+}

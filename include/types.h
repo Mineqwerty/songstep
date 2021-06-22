@@ -350,8 +350,18 @@ struct MarioState
     int curBPM;
     int beat;
     int noteTimer;
-
-    u8 curInstrument;
+    int fogFlare;
+    s16 curInstrument[10];
+    u8 heldInstrument[10];
+    struct Object *lastPlatform;
+    int beatCount;
+    int fogCloseDist;
+    s16 drumBeat;
+    s16 stringsBeat;
+    s16 pianoBeat;
+    s16 saxBeat;
+    int lvlOneStars[25];
+    int saxSpeed;
 };
 
 #endif // TYPES_H

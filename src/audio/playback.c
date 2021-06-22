@@ -623,23 +623,6 @@ void process_notes(void) {
             scale *= 4.3498e-5f; // ~1 / 23000
             velocity = velocity * scale * scale;
             note_set_frequency(note, frequency);
-            /*
-             if (gMarioState && gMarioState->marioObj) {
-                 if (note->bankId == 34 && gMarioState->curInstrument == 120) {
-                     gMarioState->noteTimer+= 1;
-                     if (gMarioState->noteTimer < 60) {
-                     gMarioState->beat = 1;
-                     }
-                     else {
-                         gMarioState->beat = 0;
-                     }
-
-                     
-                 }
-                 
-                 print_text_fmt_int(20, 20, "Timer %d", gMarioState->noteTimer);
-             }
-*/
             note_set_vel_pan_reverb(note, velocity, pan, reverb);
             continue;
         }
@@ -1196,7 +1179,6 @@ s32 note_init_for_layer(struct Note *note, struct SequenceChannelLayer *seqLayer
 
     note->bankId = seqLayer->seqChannel->bankId;
 
-    
 
     note->stereoHeadsetEffects = seqLayer->seqChannel->stereoHeadsetEffects;
     note->sound = seqLayer->sound;
@@ -1210,11 +1192,102 @@ s32 note_init_for_layer(struct Note *note, struct SequenceChannelLayer *seqLayer
     note_init(note);
     
     if (seqLayer->seqChannel->bankId > 10) {
-        print_text_fmt_int(20, 60, "CurInst %d", seqLayer->seqChannel->instOrWave);
-      if (seqLayer->seqChannel->instOrWave == 11) {
-        gMarioState->curInstrument = seqLayer->seqChannel->instOrWave;
+        //print_text_fmt_int(20, 60, "CurInst %d", seqLayer->seqChannel->instOrWave);
+
+        //USEFUL FOR INSTRUMENT ADDING
+        if (gMarioState && gCurrLevelNum == LEVEL_WF) {
+            int i = 1;
+            for (i; i < 16; i++) {
+                int instID;
+                switch (i) {
+                    case 0:
+                    case 1: instID = 2;
+                    break;
+                    case 4: instID = 1;
+                    break;
+                    case 6: instID = 4;
+                    break;
+                    case 5: instID = 3;
+                    break;
+                    case 10: instID = 0;
+                    break;
+                }
+
+
+                if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 0) {
+                     seqLayer->seqChannel->volume = 0;
+                    }
+                else if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 1) {
+                     seqLayer->seqChannel->volume = 1.0f;
+                 }
+            }
+    }
+
+    if (gMarioState && gCurrLevelNum == LEVEL_CCM) {
+            int i = 1;
+            for (i; i < 16; i++) {
+                int instID;
+                switch (i) {
+                    case 9: instID = 17;
+                    break;
+                    case 2: instID = 18; //GOOD
+                    break;
+                    case 5: instID = 23;
+                    break;
+                    case 4: instID = 21; //GOOD
+                    break;
+                    case 6: instID = 22;
+                    break;
+                    case 3: instID = 20;
+                    break;
+                    case 7: instID = 19; //GOOD
+                    break;
+                }
+
+
+                if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 0) {
+                     seqLayer->seqChannel->volume = 0;
+                    }
+                else if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 1) {
+                    if (seqLayer->seqChannel->instOrWave != 7) {
+                     seqLayer->seqChannel->volume = 1.0f;
+                    }
+                    else {
+                        seqLayer->seqChannel->volume = 0.30f;
+                    }
+                 }
+                 if (seqLayer->seqChannel->instOrWave == 0 && gMarioState->lvlOneStars[16] == 0) {
+                     seqLayer->seqChannel->volume = 0;
+                    }
+                else if (seqLayer->seqChannel->instOrWave == 0 && gMarioState->lvlOneStars[16] == 1) {
+                     seqLayer->seqChannel->volume = 1.0f;
+                 }
+            }
+    }
+    //print_text_fmt_int(100, 10 * seqLayer->seqChannel->instOrWave, "inst %d", seqLayer->seqChannel->instOrWave);
+    if (gMarioState && gCurrLevelNum == LEVEL_WF) {
+      switch (seqLayer->seqChannel->instOrWave) {
+          case 11:
+          gMarioState->drumBeat = seqLayer->seqChannel->instOrWave;
+        gMarioState->curInstrument[0] = seqLayer->seqChannel->instOrWave; break;
+        case 1: gMarioState->stringsBeat = seqLayer->seqChannel->instOrWave;  break;
+      }
+      if (seqLayer->seqChannel->instOrWave == 1) {
+        gMarioState->heldInstrument[1] = seqLayer->seqChannel->instOrWave;
         
-        }
+      }
+    }
+    if (gCurrLevelNum == LEVEL_CCM) {
+        switch (seqLayer->seqChannel->instOrWave) {
+          case 0:
+          gMarioState->drumBeat = seqLayer->seqChannel->instOrWave;
+          break;
+        case 2: gMarioState->pianoBeat = seqLayer->seqChannel->instOrWave; 
+        break;
+        case 4: gMarioState->saxBeat = seqLayer->seqChannel->instOrWave; 
+        break;
+      }
+    }
     }
     return FALSE;
 }

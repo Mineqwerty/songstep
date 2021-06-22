@@ -3,7 +3,7 @@
     "sample_bank": "instruments",
     "envelopes": {
         "envelope0": [
-            [2, 32700],
+            [2, 16350],
             [1, 32700],
             [32700, 29430],
             "hang"
@@ -43,13 +43,31 @@
             [1, 32700],
             [32700, 29430],
             "hang"
+        ],
+        "envelope7": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope8": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
+        ],
+        "envelope9": [
+            [2, 32700],
+            [1, 32700],
+            [32700, 29430],
+            "hang"
         ]
     },
     "instruments": {
         "inst0": {
             "release_rate": 208,
             "envelope": "envelope0",
-            "sound": "19_brass"
+            "sound": "4C_violins"
         },
         "inst1": {
             "release_rate": 208,
@@ -147,15 +165,30 @@
             "sound_lo": "10_cymbal_bell",
             "sound": "11_splash_cymbal",
             "sound_hi": "10_cymbal_bell"
+        },
+        "inst6": {
+            "release_rate": 128,
+            "envelope": "envelope7",
+            "sound": "49_violincello"
+        },
+        "inst7": {
+            "release_rate": 128,
+            "envelope": "envelope8",
+            "sound": "4A_viola"
+        },
+        "inst8": {
+            "release_rate": 128,
+            "envelope": "envelope9",
+            "sound": "4B_contrabass"
         }
     },
     "instrument_list": [
         "inst0",
         null,
         null,
-        null,
-        null,
-        null,
+        "inst6", 
+        "inst7", 
+        "inst8", 
         "inst1",
         "inst2",
         "inst3",

@@ -61,7 +61,7 @@
 // Disable AA (Recommended: it changes nothing on emulator, and it makes console run better)
 #define DISABLE_AA
 // Uncomment this if you want global star IDs (useful for creating an open world hack ala MVC)
-//#define GLOBAL_STAR_IDS
+#define GLOBAL_STAR_IDS
 // Uncomment this if you want to skip the title screen (Super Mario 64 logo)
 //#define SKIP_TITLE_SCREEN
 // Uncomment this if you want to keep the mario head and not skip it
@@ -82,6 +82,6 @@
  * - If you're using 4x bounds, use a value between 3.f and 4.f, depending on whether you're filling up the entire 4x bounds or not.
  * If you want to change the extended bounds mode, go to src/engine/extended_bounds.h
  */
-#define WORLD_SCALE 2.f
+#define WORLD_SCALE 4.f
 
 #endif // CONFIG_H

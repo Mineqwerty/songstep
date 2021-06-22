@@ -207,4 +207,12 @@ extern const Collision unknown_seg8_collision_080262F8[];
 
 #include "beat_push/collision_header.h"
 
+#include "bowstring/geo_header.h"
+
+#include "bowstring/collision_header.h"
+
+#include "piano_key/geo_header.h"
+
+#include "piano_key/collision_header.h"
+
 #endif
