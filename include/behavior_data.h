@@ -546,5 +546,9 @@ extern const BehaviorScript bhvUnusedFakeStar[];
 extern const BehaviorScript bhvBeatPush[];
 extern const BehaviorScript bhvBowstring[];
 extern const BehaviorScript bhvPianoKey[];
+extern const BehaviorScript bhvStarstone[];
+extern const BehaviorScript bhvLuigiPiano[];
+extern const BehaviorScript bhvLuigiPlaying[];
+extern const BehaviorScript bhvPipeSummoner[];
 
 #endif // BEHAVIOR_DATA_H

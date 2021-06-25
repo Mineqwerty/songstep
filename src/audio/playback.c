@@ -10,6 +10,7 @@
 #include "external.h"
 #include "game/level_update.h"
 #include "game/area.h"
+#include "include/sm64.h"
 
 void note_set_resampling_rate(struct Note *note, f32 resamplingRateInput);
 
@@ -1244,10 +1245,11 @@ s32 note_init_for_layer(struct Note *note, struct SequenceChannelLayer *seqLayer
                     break;
                 }
 
-
+    if (gMarioState->action != ACT_STAR_DANCE_NO_EXIT) {
                 if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 0) {
                      seqLayer->seqChannel->volume = 0;
                     }
+                    
                 else if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 1) {
                     if (seqLayer->seqChannel->instOrWave != 7) {
                      seqLayer->seqChannel->volume = 1.0f;
@@ -1256,12 +1258,14 @@ s32 note_init_for_layer(struct Note *note, struct SequenceChannelLayer *seqLayer
                         seqLayer->seqChannel->volume = 0.30f;
                     }
                  }
+    
                  if (seqLayer->seqChannel->instOrWave == 0 && gMarioState->lvlOneStars[16] == 0) {
                      seqLayer->seqChannel->volume = 0;
                     }
                 else if (seqLayer->seqChannel->instOrWave == 0 && gMarioState->lvlOneStars[16] == 1) {
                      seqLayer->seqChannel->volume = 1.0f;
                  }
+    }
             }
     }
     //print_text_fmt_int(100, 10 * seqLayer->seqChannel->instOrWave, "inst %d", seqLayer->seqChannel->instOrWave);

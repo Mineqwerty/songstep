@@ -27,3 +27,5 @@
 #include "sparkle_animation/model.inc.c"
 
 #include "mario/collision.inc.c"
+
+#include "s2dex/fonts/impact.c"

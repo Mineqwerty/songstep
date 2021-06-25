@@ -120,7 +120,7 @@ static void toad_message_opaque(void) {
         if (gCurrentObject->oInteractStatus & INT_STATUS_INTERACTED) {
             gCurrentObject->oInteractStatus = 0;
             gCurrentObject->oToadMessageState = TOAD_MESSAGE_TALKING;
-            play_toads_jingle();
+            //play_toads_jingle();
         }
     }
 }
@@ -128,8 +128,8 @@ static void toad_message_opaque(void) {
 static void toad_message_talking(void) {
     if (cur_obj_update_dialog_with_cutscene(3, 1, CUTSCENE_DIALOG, gCurrentObject->oToadMessageDialogId)
         != 0) {
-        gCurrentObject->oToadMessageRecentlyTalked = TRUE;
-        gCurrentObject->oToadMessageState = TOAD_MESSAGE_FADING;
+        gCurrentObject->oToadMessageRecentlyTalked = FALSE;
+        gCurrentObject->oToadMessageState = TOAD_MESSAGE_OPAQUE;
         switch (gCurrentObject->oToadMessageDialogId) {
             case TOAD_STAR_1_DIALOG:
                 gCurrentObject->oToadMessageDialogId = TOAD_STAR_1_DIALOG_AFTER;
@@ -148,38 +148,40 @@ static void toad_message_talking(void) {
 }
 
 static void toad_message_opacifying(void) {
-    if ((gCurrentObject->oOpacity += 6) == 255) {
+
         gCurrentObject->oToadMessageState = TOAD_MESSAGE_OPAQUE;
-    }
+    
 }
 
 static void toad_message_fading(void) {
-    if ((gCurrentObject->oOpacity -= 6) == 81) {
-        gCurrentObject->oToadMessageState = TOAD_MESSAGE_FADED;
-    }
+
+        gCurrentObject->oToadMessageState = TOAD_MESSAGE_OPAQUE;
+    
 }
 
 void bhv_toad_message_loop(void) {
-    if (gCurrentObject->header.gfx.node.flags & GRAPH_RENDER_ACTIVE) {
+    if (gMarioState->action == ACT_READING_NPC_DIALOG) {
+    gMarioState->actionArg = 2;
+    }
         gCurrentObject->oInteractionSubtype = 0;
         switch (gCurrentObject->oToadMessageState) {
             case TOAD_MESSAGE_FADED:
-                toad_message_faded();
+                toad_message_opaque();
                 break;
             case TOAD_MESSAGE_OPAQUE:
                 toad_message_opaque();
                 break;
             case TOAD_MESSAGE_OPACIFYING:
-                toad_message_opacifying();
+                toad_message_opaque();
                 break;
             case TOAD_MESSAGE_FADING:
-                toad_message_fading();
+                toad_message_opaque();
                 break;
             case TOAD_MESSAGE_TALKING:
                 toad_message_talking();
                 break;
         }
-    }
+    
 }
 
 void bhv_toad_message_init(void) {

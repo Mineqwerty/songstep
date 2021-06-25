@@ -1,0 +1,15 @@
+extern const GeoLayout piano_geo[];
+extern Lights1 piano_f3d_material_018_lights;
+extern Lights1 piano_f3d_material_021_lights;
+extern u8 piano_cello_ci8[];
+extern u8 piano_cello_ci8_pal_rgba16[];
+extern u8 piano_pianokeys_ia8[];
+extern Vtx piano_Cube_001_mesh_layer_1_vtx_0[154];
+extern Gfx piano_Cube_001_mesh_layer_1_tri_0[];
+extern Vtx piano_Cube_001_mesh_layer_1_vtx_1[6];
+extern Gfx piano_Cube_001_mesh_layer_1_tri_1[];
+extern Gfx mat_piano_f3d_material_018[];
+extern Gfx mat_revert_piano_f3d_material_018[];
+extern Gfx mat_piano_f3d_material_021[];
+extern Gfx piano_Cube_001_mesh_layer_1[];
+extern Gfx piano_material_revert_render_settings[];

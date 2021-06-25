@@ -3519,12 +3519,11 @@ const BehaviorScript bhvMario[] = {
 const BehaviorScript bhvToadMessage[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_PERSISTENT_RESPAWN | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-    LOAD_ANIMATIONS(oAnimations, toad_seg6_anims_0600FB58),
-    ANIMATE(6),
+    LOAD_ANIMATIONS(oAnimations, songbi_anims),
+    ANIMATE(0),
     SET_INTERACT_TYPE(INTERACT_TEXT),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 100),
     SET_INT(oIntangibleTimer, 0),
-    CALL_NATIVE(bhv_init_room),
     CALL_NATIVE(bhv_toad_message_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_toad_message_loop),
@@ -3541,7 +3540,11 @@ const BehaviorScript bhvUnlockDoorStar[] = {
 };
 
 const BehaviorScript bhvInstantActiveWarp[] = {
-    BREAK(),
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_warp_stalker_loop),
+    END_LOOP(),
 };
 
 const BehaviorScript bhvAirborneWarp[] = {
@@ -6136,5 +6139,44 @@ const BehaviorScript bhvPianoKey[] = {
     BEGIN_LOOP(),
         CALL_NATIVE(piano_key_loop),
         CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvStarstone[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(starstone_collision),
+    SET_FLOAT(oDrawingDistance, 20000),
+    BEGIN_LOOP(),
+        CALL_NATIVE(starstone_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLuigiPiano[] = {
+    BEGIN(OBJ_LIST_SURFACE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_COLLISION_DATA(piano_collision),
+    BEGIN_LOOP(),
+        CALL_NATIVE(luigi_piano_loop),
+        CALL_NATIVE(load_object_collision_model),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvLuigiPlaying[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    LOAD_ANIMATIONS(oAnimations, luigi_anims),
+    BEGIN_LOOP(),
+        CALL_NATIVE(luigi_playing_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvPipeSummoner[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO)),
+    CALL_NATIVE(pipe_summoner_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(pipe_summoner_loop),
     END_LOOP(),
 };

@@ -20,7 +20,7 @@
 #define MENU_DATA_MAGIC 0x4849
 #define SAVE_FILE_MAGIC 0x4441
 
-STATIC_ASSERT(sizeof(struct SaveBuffer) == EEPROM_SIZE, "eeprom buffer size must match");
+//STATIC_ASSERT(sizeof(struct SaveBuffer) == EEPROM_SIZE, "eeprom buffer size must match");
 
 extern struct SaveBuffer gSaveBuffer;
 
@@ -703,4 +703,35 @@ s32 check_warp_checkpoint(struct WarpNode *warpNode) {
     }
 
     return warpCheckpointActive;
+}
+
+void save_cutscene_id(void) {
+    struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
+    for (int i = 0; i<24; i++) {
+    saveFile->saveInstrumentsCollected[i] = gMarioState->lvlOneStars[i];
+    }
+    //saveFile->saveCutsceneID = gMarioState->cutsceneStep;
+    saveFile->saveLevelsCompleted[0] = gMarioState->lvlOneStars[11];
+    saveFile->saveLevelsCompleted[1] = gMarioState->lvlOneStars[12];
+    gSaveFileModified = TRUE;
+    save_file_do_save(gCurrSaveFileNum - 1);
+}
+
+void save_specific_star(void) {
+    struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
+    for (int i = 0; i<24; i++) {
+    saveFile->saveInstrumentsCollected[i] = gMarioState->lvlOneStars[i];
+    }
+    gSaveFileModified = TRUE;
+}
+
+void load_cutscene_id(void) {
+    struct SaveFile *saveFile = &gSaveBuffer.files[gCurrSaveFileNum - 1][0];
+    for (int i = 0; i<24; i++) {
+     gMarioState->lvlOneStars[i] = saveFile->saveInstrumentsCollected[i];
+    }
+     //gMarioState->cutsceneStep = saveFile->saveCutsceneID;
+    //gMarioState->lvlOneStars[11] = saveFile->saveLevelsCompleted[0];
+    //gMarioState->lvlOneStars[12] = saveFile->saveLevelsCompleted[1];
+    
 }

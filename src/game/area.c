@@ -22,6 +22,9 @@
 #include "engine/geo_layout.h"
 #include "save_file.h"
 #include "level_table.h"
+#include "s2dex/init.h"
+#include "s2dex/s2d_draw.h"
+#include "s2dex/s2d_print.h"
 
 struct SpawnInfo gPlayerSpawnInfos[1];
 struct GraphNode *gGraphNodePointers[MODEL_ID_COUNT];
@@ -130,7 +133,6 @@ void print_intro_text(void) {
 u32 get_mario_spawn_type(struct Object *o) {
     s32 i;
     const BehaviorScript *behavior = virtual_to_segmented(0x13, o->behavior);
-
     for (i = 0; i < 20; i++) {
         if (sWarpBhvSpawnTable[i] == behavior) {
             return sSpawnTypeFromWarpBhv[i];
@@ -360,6 +362,35 @@ void play_transition_after_delay(s16 transType, s16 time, u8 red, u8 green, u8 b
     play_transition(transType, time, red, green, blue);
 }
 
+char *instName[] = {
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "DRUMS",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "VIOLONCELLO",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "VIOLIN",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "CONTRABASS",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "VIOLA",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+SCALE "2" COLOR "255 255 0 0" " ",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "DRUMS",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "ELEC. GUITAR",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "PIANO",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "TRUMPET",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "TROMBONE",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "ALTO SAX",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "TENOR SAX",
+DROPSHADOW SCALE "2" COLOR "255 255 0 0" "BASS GUITAR",
+SCALE "2" COLOR "255 255 0 0" " "
+};
+
+
 void render_game(void) {
     if (gCurrentArea != NULL && !gWarpTransition.pauseRendering) {
         geo_process_root(gCurrentArea->unk04, D_8032CE74, D_8032CE78, gFBSetColor);
@@ -377,7 +408,37 @@ void render_game(void) {
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, BORDER_HEIGHT, SCREEN_WIDTH,
                       SCREEN_HEIGHT - BORDER_HEIGHT);
         gPauseScreenMode = render_menus_and_dialogs();
+    static int slidePos;
 
+        if (gMarioState && gMarioObject) {
+            if (gMarioState->action == ACT_STAR_DANCE_NO_EXIT) {
+s2d_init();
+
+        uObjMtx *buffer;
+        uObjMtx *buffer2;
+	// substitute with a different alloc function as neccesary
+	buffer = alloc_display_list(0x200 * sizeof(uObjMtx));
+    buffer2 = alloc_display_list(0x200 * sizeof(uObjMtx));
+
+	s2d_print(100, 100, 1, DROPSHADOW SCALE "2" COLOR "255 255 0 0" "YOU GOT", buffer);
+    
+    s2d_print(slidePos, 150, 1, instName[gMarioState->lastCollectedStar], buffer2);
+
+    if (slidePos < 200) {
+        slidePos += 5;
+    }
+
+
+
+	// reloads the original microcode; only needed once after all prints
+    s2d_handle_deferred();
+	s2d_stop();
+        }
+        else {
+            slidePos = -100;
+        }
+        
+        }
         if (gPauseScreenMode != 0) {
             gSaveOptSelectIndex = gPauseScreenMode;
         }

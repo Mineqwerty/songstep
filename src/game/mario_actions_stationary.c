@@ -1127,7 +1127,7 @@ if (m->lvlOneStars[2] == 1) {
     if (stringsHitDetect == TRUE) {
         cur_obj_spawn_particles(&StringsHit);
         play_sound(SOUND_GENERAL_BIG_CLOCK, gGlobalSoundSource);
-        fog_flare(5, 5, 0, beatFogValue + gFogCloseDist, 1);
+        //fog_flare(5, 5, 0, beatFogValue + gFogCloseDist, 1);
          if (m->beatCount == 5 ) {
              m->action = ACT_SLIDE_KICK;
              m->forwardVel = 190.0f;
@@ -1156,7 +1156,7 @@ if (m->lvlOneStars[21] == 1) {
 
 if (m->lvlOneStars[16] == 1 && gCurrLevelNum == LEVEL_CCM) {
     if (drumHitDetect == TRUE) {
-        fog_flare(5, 0, 0, beatFogValue, 1);
+        //fog_flare(5, 0, 0, beatFogValue, 1);
         return gMarioState->action = ACT_DRUM_JUMP;
     }
     else if (drumHitDetect == 2) {
@@ -1166,7 +1166,7 @@ if (m->lvlOneStars[16] == 1 && gCurrLevelNum == LEVEL_CCM) {
 }
 if (m->lvlOneStars[0] == 1 && gCurrLevelNum == LEVEL_WF) {
     if (drumHitDetect == TRUE) {
-        fog_flare(5, 0, 0, beatFogValue, 1);
+        //fog_flare(5, 0, 0, beatFogValue, 1);
         return gMarioState->action = ACT_DRUM_JUMP;
     }
     else if (drumHitDetect == 2) {

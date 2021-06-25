@@ -360,8 +360,15 @@ struct MarioState
     s16 stringsBeat;
     s16 pianoBeat;
     s16 saxBeat;
-    int lvlOneStars[25];
+    u8 lvlOneStars[25];
     int saxSpeed;
+    int lastCollectedStar;
+    int starstoneCutscenes[2];
+    u8 cutsceneStep;
+    u8 levelsCompleted[2];
+    int pianoSmashed;
+    int gameInitialized;
+    int recentSave;
 };
 
 #endif // TYPES_H

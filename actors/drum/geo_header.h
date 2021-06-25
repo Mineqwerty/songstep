@@ -1,0 +1,10 @@
+extern const GeoLayout drum_geo[];
+extern Lights1 drum_f3d_material_002_lights;
+extern u8 drum_drumside_ci8[];
+extern u8 drum_drumside_ci8_pal_rgba16[];
+extern Vtx drum_Cube_mesh_layer_1_vtx_0[91];
+extern Gfx drum_Cube_mesh_layer_1_tri_0[];
+extern Gfx mat_drum_f3d_material_002[];
+extern Gfx mat_revert_drum_f3d_material_002[];
+extern Gfx drum_Cube_mesh_layer_1[];
+extern Gfx drum_material_revert_render_settings[];

@@ -61,6 +61,7 @@ void bhv_tower_door_loop(void);
 void bhv_wf_rotating_wooden_platform_loop(void);
 void bhv_koopa_shell_underwater_loop(void);
 void bhv_fading_warp_loop(void);
+void bhv_warp_stalker_loop(void);
 void bhv_warp_loop(void);
 void bhv_white_puff_exploding_loop(void);
 void bhv_spawned_star_init(void);
@@ -556,6 +557,11 @@ void beat_push_init(void);
 void beat_push_loop(void);
 void bowstring_loop(void);
 void piano_key_loop(void);
+void starstone_loop(void);
+void luigi_piano_loop(void);
+void luigi_playing_loop(void);
+void pipe_summoner_init(void);
+void pipe_summoner_loop(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

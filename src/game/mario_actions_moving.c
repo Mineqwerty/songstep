@@ -816,11 +816,13 @@ s32 act_walking(struct MarioState *m) {
         case GROUND_STEP_HIT_WALL:
             push_or_sidle_wall(m, startPos);
             if (m->input & INPUT_Z_PRESSED && m->lvlOneStars[18] == 1) {
+                m->pos[1] += 90.0f;
                 set_mario_action(m, ACT_WALLCRAWL, 0);
         return 0;
     }
 
     if (gPlayer1Controller->buttonPressed & L_TRIG && m->lvlOneStars[18] == 1) {
+        m->pos[1] += 90.0f;
         set_mario_action(m, ACT_WALLCRAWL, 0);
         return 0;
     }
@@ -1957,7 +1959,7 @@ s32 act_wallcrawl(struct MarioState *m) {
         set_mario_action(m, ACT_FREEFALL, 0);
         return 0;
     }
-
+    //print_text_fmt_int(100, 100, "RAW %d", gPlayer1Controller->rawStickY);
     if (pianoHitDetect == TRUE && actTimer == -4) {
         cur_obj_spawn_particles(&PianoHit);
         play_sound(SOUND_MARIO_PUNCH_YAH, gGlobalSoundSource);
@@ -1965,8 +1967,21 @@ s32 act_wallcrawl(struct MarioState *m) {
         set_mario_animation(m, MARIO_ANIM_DOUBLE_JUMP_RISE);
     }
 
+    if (gPlayer1Controller->rawStickX > 80) {
+        gPlayer1Controller->rawStickX = 80;
+    }
+    if (gPlayer1Controller->rawStickY > 80) {
+        gPlayer1Controller->rawStickY = 80;
+    }
+    if (gPlayer1Controller->rawStickX < -80) {
+        gPlayer1Controller->rawStickX = -80;
+    }
+    if (gPlayer1Controller->rawStickY < -80) {
+        gPlayer1Controller->rawStickY = -80;
+    }
+
     if (actTimer > -4) {
-        interpolatedDist = 1.2f / (absf(actTimer) + 1);
+        interpolatedDist = 1.5f / (absf(actTimer) + 1);
         m->pos[1] += gPlayer1Controller->rawStickY * interpolatedDist;
         m->pos[0] += ((f32)gPlayer1Controller->rawStickX)*coss(atan2s(m->wall->normal.z, m->wall->normal.x)) * interpolatedDist;
         m->pos[2] -= ((f32)gPlayer1Controller->rawStickX)*sins(atan2s(m->wall->normal.z, m->wall->normal.x)) * interpolatedDist;

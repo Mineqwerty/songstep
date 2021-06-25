@@ -749,7 +749,7 @@ u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *
 
     if (COURSE_IS_MAIN_COURSE(gCurrCourseNum) && m->numCoins - o->oDamageOrCoinValue < 100
         && m->numCoins >= 100) {
-        bhv_spawn_star_no_level_exit(6);
+        //bhv_spawn_star_no_level_exit(6);
     }
 #if ENABLE_RUMBLE
     if (o->oDamageOrCoinValue >= 2) {
@@ -823,8 +823,16 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
 #ifndef VERSION_JP
         update_mario_sound_and_camera(m);
 #endif
+        if (gCurrLevelNum == LEVEL_WF) {
         gFogCloseDist = 200 * m->numStars;
+        }
+        if (gCurrLevelNum == LEVEL_CCM) {
+        gFogCloseDist = 100 * (m->numStars - 5);
+        }
+        
         gDynamicFogPos = gFogCloseDist;
+        gMarioState->lastCollectedStar = (o->oBehParams >> 24) & 0xFF;
+        
         if (grandStar) {
             return set_mario_action(m, ACT_JUMBO_STAR_CUTSCENE, 0);
         }

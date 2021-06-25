@@ -173,10 +173,14 @@ SECTIONS
 
       BUILD_DIR/lib/rsp.o(.rodata*);
       lib/PR/hvqm/hvqm2sp1.o(.rodata*);
+    BUILD_DIR/s2dex*.o(.text*);
+BUILD_DIR/s2dex*.o(.data);
+BUILD_DIR/s2dex*.o(.rodata*);
    }
    END_SEG(main)
    BEGIN_NOLOAD(main)
    {
+      BUILD_DIR/s2dex*.o(.bss*);
       BUILD_DIR/src/game*.o(.*bss*);
       BUILD_DIR/src/hvqm*.o(.*bss*);
       BUILD_DIR/src/gdb*.o(.*bss*);

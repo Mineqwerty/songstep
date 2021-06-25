@@ -101,6 +101,12 @@
 // ccm
 #define MODEL_CCM_ROPEWAY_LIFT                 0x36        // ccm_geo_0003D0
 #define MODEL_CCM_SNOWMAN_HEAD                 0x37        // ccm_geo_00040C
+#define MODEL_ELEC_GUITAR                      0x38
+#define MODEL_TRUMPET                           0x3F
+#define MODEL_TROMBONE                      0x40
+#define MODEL_ALTO_SAX                      0x41
+#define MODEL_TENOR_SAX                     0x42
+#define MODEL_BASS_GUITAR                      0x43
 
 // castle
 #define MODEL_CASTLE_BOWSER_TRAP               0x35        // castle_geo_000F18
@@ -289,6 +295,10 @@
 #define MODEL_WF_KICKABLE_BOARD                   0x38        // wf_geo_000BA8
 #define MODEL_WF_TOWER_DOOR                       0x39        // wf_geo_000BE0
 #define MODEL_WF_KICKABLE_BOARD_FELLED            0x3A        // wf_geo_000BC8
+#define MODEL_VIOLONCELLO                      0x3B
+#define MODEL_VIOLIN                      0x3C
+#define MODEL_CONTRABASS                      0x3D
+#define MODEL_VIOLA                      0x3E
 
 // ending
 
@@ -567,6 +577,12 @@
 #define MODEL_BEAT_PUSH          0xFF 
 #define MODEL_BOWSTRING          0xFE
 #define MODEL_PIANO_KEY          0xFD
+#define MODEL_STARSTONE          0xFC
+#define MODEL_DRUM          0xFB
+#define MODEL_PIANO          0xFA
+#define MODEL_SONGBI          0xF9
+#define MODEL_BROKEN_PIANO          0xF8
+#define MODEL_LUIGI_PLAYING          0xF7
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

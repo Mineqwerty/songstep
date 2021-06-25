@@ -30,3 +30,15 @@ void bhv_fading_warp_loop() // identical to the above function except for o->hit
     }
     o->oInteractStatus = 0;
 }
+
+void bhv_warp_stalker_loop() {
+    if (
+        gMarioState->floor &&
+        gMarioState->floor->type == SURFACE_0004 )
+        {
+        o->oPosX = (gMarioState->floor->vertex1[0] + gMarioState->floor->vertex2[0] + gMarioState->floor->vertex3[0]) / 3;
+        o->oPosY = ((gMarioState->floor->vertex1[1] + gMarioState->floor->vertex2[1] + gMarioState->floor->vertex3[1]) / 3) + 50;
+        o->oPosZ = (gMarioState->floor->vertex1[2] + gMarioState->floor->vertex2[2] + gMarioState->floor->vertex3[2]) / 3;
+        o->oFaceAngleYaw = gMarioState->faceAngle[1];
+    }
+}

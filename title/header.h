@@ -1,0 +1,14 @@
+extern Lights1 title_f3d_material_001_lights;
+extern Lights1 title_f3d_material_lights;
+extern Lights1 title_f3d_material_002_lights;
+extern u8 title_measeure_rgba16[];
+extern Vtx title_titlesongstep_mesh_vtx_0[44];
+extern Gfx title_titlesongstep_mesh_tri_0[];
+extern Vtx title_titlesongstep_mesh_vtx_1[333];
+extern Gfx title_titlesongstep_mesh_tri_1[];
+extern Vtx title_titlesongstep_mesh_vtx_2[718];
+extern Gfx title_titlesongstep_mesh_tri_2[];
+extern Gfx mat_title_f3d_material_001[];
+extern Gfx mat_title_f3d_material[];
+extern Gfx mat_title_f3d_material_002[];
+extern Gfx title_titlesongstep_mesh[];

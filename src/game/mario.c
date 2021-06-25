@@ -32,6 +32,7 @@
 #include "save_file.h"
 #include "sound_init.h"
 #include "rumble_init.h"
+#include "src/game/ingame_menu.h"
 
 u32 unused80339F10;
 s8 filler80339F1C[20];
@@ -1723,6 +1724,12 @@ void func_sh_8025574C(void) {
 s32 execute_mario_action(UNUSED struct Object *o) {
     s32 inLoop = TRUE;
 
+    if (gMarioState->gameInitialized == 0) {
+        load_cutscene_id();
+        gMarioState->gameInitialized = 1;
+    }
+
+
     int walkVolume;
 /*
     if (gMarioState->action == ACT_WALKING) {
@@ -1736,10 +1743,147 @@ s32 execute_mario_action(UNUSED struct Object *o) {
     }
 
     */
-    if (gPlayer1Controller->buttonDown & D_JPAD) {
-        gMarioState->vel[1] = 20.0f;
+   
+
+
+   if (gMarioState->lastCollectedStar != -1 && gMarioState->action != ACT_FALL_AFTER_STAR_GRAB && gMarioState->action != ACT_STAR_DANCE_NO_EXIT) {
+    switch (gMarioState->lastCollectedStar) {
+        case 0: create_dialog_box(0); gMarioState->action = ACT_WAITING_FOR_DIALOG;
+        break;
+        case 2: create_dialog_box(8); gMarioState->action = ACT_WAITING_FOR_DIALOG;
+        break;
+        case 16: create_dialog_box(15); gMarioState->action = ACT_WAITING_FOR_DIALOG;
+        break;
+        case 18: create_dialog_box(18); gMarioState->action = ACT_WAITING_FOR_DIALOG;
+        break;
+        case 21: create_dialog_box(19); gMarioState->action = ACT_WAITING_FOR_DIALOG;
+        break;
     }
     
+    gMarioState->lastCollectedStar = -1;
+    }
+
+    if (gMarioState->action == ACT_WAITING_FOR_DIALOG && gDialogResponse != 0) {
+        gMarioState->action = ACT_IDLE;
+    }
+
+    if (gCurrLevelNum == LEVEL_WF) {
+        if (gMarioState->numStars == 0) {
+        gFogCloseDist = 50;
+        }
+        else {
+            gFogCloseDist = 200 * gMarioState->numStars;
+        }
+    }
+
+    if (gCurrLevelNum == LEVEL_CCM) {
+        if (gMarioState->numStars == 5) {
+        gFogCloseDist = 50;
+        }
+        else {
+            gFogCloseDist = 100 * (gMarioState->numStars - 5);
+        }
+    }
+    
+    if (gDynamicFogPos < gFogCloseDist || gMarioState->action != ACT_FALL_AFTER_STAR_GRAB || gMarioState->action != ACT_STAR_DANCE_NO_EXIT) {
+        gDynamicFogPos = gFogCloseDist;
+    }
+
+    //print_text_fmt_int(100, 100, "step %d", gMarioState->lvlOneStars[10]);
+    //print_text_fmt_int(100, 80, "lv %d", gMarioState->lvlOneStars[12]);
+    if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
+
+
+
+
+        switch (gMarioState->lvlOneStars[10]) {
+            case 0: gMarioState->action = ACT_WAITING_FOR_DIALOG;
+                gMarioState->lvlOneStars[10] = 1;
+                create_dialog_box(34);
+                
+                break;
+            case 1: 
+                if (gMarioState->lvlOneStars[11] == 1) {
+                    gMarioState->lvlOneStars[10] = 2;
+                }
+                break;
+            case 2: gMarioState->action = ACT_WAITING_FOR_DIALOG;
+                create_dialog_box(40);
+                gMarioState->lvlOneStars[10] = 3;
+                break;
+            case 3: if (gMarioState->action == ACT_WAITING_FOR_DIALOG && gDialogResponse != 0) {
+                    gMarioState->action = ACT_IDLE;
+                    save_cutscene_id();
+                }
+                if (gMarioState->lvlOneStars[12] == 1) {
+                    gMarioState->lvlOneStars[10] = 4;
+                }
+                break;
+            case 4: gMarioState->action = ACT_WAITING_FOR_DIALOG;
+                create_dialog_box(39);
+                gMarioState->lvlOneStars[10] = 5;
+                play_secondary_music(0x0A, 0, 255, 1);
+                break;
+            case 5: if (gMarioState->action == ACT_WAITING_FOR_DIALOG && gDialogResponse != 0) {
+                    gMarioState->action = ACT_IDLE;
+                    save_cutscene_id();
+                }
+                if (gMarioState->pianoSmashed == 1) {
+                    gMarioState->lvlOneStars[10] = 6;
+                    func_80321080(500);
+                }
+                break;
+            case 6: gMarioState->action = ACT_WAITING_FOR_DIALOG;
+                create_dialog_box(42);
+                gMarioState->lvlOneStars[10] = 7;
+                break;
+            case 7: if (gMarioState->action == ACT_WAITING_FOR_DIALOG && gDialogResponse != 0) {
+                    gMarioState->action = ACT_IDLE;
+                    gMarioState->lvlOneStars[10] = 8;
+                    save_cutscene_id();
+                }
+            break;
+        }
+
+    if (gDialogResponse != 0 && gMarioState->recentSave == 0) {
+                    save_specific_star();
+                    save_file_do_save(gCurrSaveFileNum - 1);
+                    //gMarioState->action = ACT_IDLE;
+                    gMarioState->recentSave = 1;
+                }
+
+    if (gDialogResponse == 0) {
+            gMarioState->recentSave = 0;
+                }
+
+
+        gDynamicFogPos = 0;
+        gFogCloseDist = 0;
+        gMarioState->starstoneCutscenes[0] = 0;
+        gMarioState->starstoneCutscenes[1] = 0;
+    }
+    /*
+    print_text_fmt_int(100, 20, "Close %d", gFogCloseDist);
+    print_text_fmt_int(100, 40, "Dyn %d", gDynamicFogPos);
+*/
+
+
+    if (gPlayer1Controller->buttonDown & D_JPAD) {
+        //gMarioState->vel[1] = 20.0f;
+    }
+
+    if (gPlayer1Controller->buttonPressed & R_JPAD) {
+        //load_cutscene_id();
+    }
+
+    if (gPlayer1Controller->buttonPressed & L_JPAD) {
+        //gMarioState->numStars = 5;
+    }
+    
+    if (gMarioState->health < 0x100 && gMarioState->action == ACT_IDLE) {
+        gMarioState->health = 0x800;
+    }
+
     for (int i; i<11; i++) {
     gMarioState->curInstrument[i] = 0;
     }
@@ -1752,7 +1896,7 @@ if (gMarioObject->platform != NULL) {
 //gMarioState->flags |= MARIO_SAX_BLAST;
 //print_text_fmt_int(20, 20, "BEAT NUM %d", gMarioState->beatCount);
 
-fog_flare(0, 0, 0, 0, 1);
+//fog_flare(0, 0, 0, 0, 1);
 
     if (gMarioState->action) {
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
@@ -1854,7 +1998,7 @@ void init_mario(void) {
     gMarioState->framesSinceB = 0xFF;
 
     gMarioState->invincTimer = 0;
-
+    gMarioState->lastCollectedStar = -1;
     if (save_file_get_flags()
         & (SAVE_FLAG_CAP_ON_GROUND | SAVE_FLAG_CAP_ON_KLEPTO | SAVE_FLAG_CAP_ON_UKIKI
            | SAVE_FLAG_CAP_ON_MR_BLIZZARD)) {

@@ -72,7 +72,7 @@ s32 check_fall_damage(struct MarioState *m, u32 hardFallAction) {
     if (m->actionState == ACT_GROUND_POUND) {
         damageHeight = 600.0f;
     } else {
-        damageHeight = 1150.0f;
+        damageHeight = 30150.0f;
     }
 
 #pragma GCC diagnostic pop
@@ -377,9 +377,9 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
             break;
 
         case AIR_STEP_LANDED:
-            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
+            
                 set_mario_action(m, landAction, 0);
-            }
+            
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -760,13 +760,12 @@ s32 act_dive(struct MarioState *m) {
 #endif
                 m->particleFlags |= PARTICLE_MIST_CIRCLE;
                 drop_and_set_mario_action(m, ACT_HEAD_STUCK_IN_GROUND, 0);
-            } else if (!check_fall_damage(m, ACT_HARD_FORWARD_GROUND_KB)) {
-                if (m->heldObj == NULL) {
+            } else if (m->heldObj == NULL) {
                     set_mario_action(m, ACT_DIVE_SLIDE, 0);
                 } else {
                     set_mario_action(m, ACT_DIVE_PICKING_UP, 0);
                 }
-            }
+            
             m->faceAngle[0] = 0;
             break;
 
@@ -801,9 +800,7 @@ s32 act_air_throw(struct MarioState *m) {
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
-            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
                 m->action = ACT_AIR_THROW_LAND;
-            }
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -892,10 +889,8 @@ s32 act_steep_jump(struct MarioState *m) {
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
-            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
                 m->faceAngle[0] = 0;
                 set_mario_action(m, m->forwardVel < 0.0f ? ACT_BEGIN_SLIDING : ACT_JUMP_LAND, 0);
-            }
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -960,10 +955,8 @@ s32 act_ground_pound(struct MarioState *m) {
                 set_mario_action(m, ACT_BUTT_STUCK_IN_GROUND, 0);
             } else {
                 play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING);
-                if (!check_fall_damage(m, ACT_HARD_BACKWARD_GROUND_KB)) {
                     m->particleFlags |= PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR;
                     set_mario_action(m, ACT_GROUND_POUND_LAND, 0);
-                }
             }
             set_camera_shake_from_hit(SHAKE_GROUND_POUND);
         } else if (stepResult == AIR_STEP_HIT_WALL) {
@@ -1109,7 +1102,6 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
                 queue_rumble_data(5, 40);
             }
 #endif
-            if (!check_fall_damage_or_get_stuck(m, hardFallAction)) {
 #ifndef VERSION_JP
                 if (m->action == ACT_THROWN_FORWARD || m->action == ACT_THROWN_BACKWARD) {
                     set_mario_action(m, landAction, m->hurtCounter);
@@ -1119,7 +1111,6 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
 #else
                 set_mario_action(m, landAction, m->actionArg);
 #endif
-            }
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -1647,9 +1638,7 @@ s32 act_jump_kick(struct MarioState *m) {
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
-            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
                 set_mario_action(m, ACT_FREEFALL_LAND, 0);
-            }
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -1939,9 +1928,7 @@ s32 act_flying_triple_jump(struct MarioState *m) {
 
     switch (perform_air_step(m, 0)) {
         case AIR_STEP_LANDED:
-            if (!check_fall_damage_or_get_stuck(m, ACT_HARD_BACKWARD_GROUND_KB)) {
                 set_mario_action(m, ACT_DOUBLE_JUMP_LAND, 0);
-            }
             break;
 
         case AIR_STEP_HIT_WALL:
@@ -2040,7 +2027,7 @@ s32 act_special_triple_jump(struct MarioState *m) {
     return FALSE;
 }
 
-struct SpawnParticlesInfo SuccessMist = { 3, 20, MODEL_MIST, 20, 10, 5, 0, 0, 0, 30, 30.0f, 1.5f };
+struct SpawnParticlesInfo SuccessMist = { 3, 10, MODEL_MIST, 20, 10, 5, 0, 0, 0, 30, 30.0f, 1.5f };
 
 s32 act_drum_jump(struct MarioState *m) {
     

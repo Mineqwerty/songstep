@@ -14,14 +14,77 @@ void bhv_celebration_star_init(void) {
         cur_obj_scale(0.1f);
         o->oCelebStarUnkF4 = 1;
     } else {
-        o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_STAR];
+        int instModel;
+    switch (gMarioState->lastCollectedStar) {
+        case 0: instModel = MODEL_DRUM;
+        break;
+        case 1: instModel = MODEL_VIOLONCELLO;
+        break;
+        case 2: instModel = MODEL_VIOLIN;
+        break;
+        case 3: instModel = MODEL_CONTRABASS;
+        break;
+        case 4: instModel = MODEL_VIOLA;
+        break;
+
+        case 16: instModel = MODEL_DRUM;
+        break;
+        case 17: instModel = MODEL_ELEC_GUITAR;
+        break;
+        case 18: instModel = MODEL_PIANO;
+        break;
+        case 19: instModel = MODEL_TRUMPET;
+        break;
+        case 20: instModel = MODEL_TROMBONE;
+        break;
+        case 21: instModel = MODEL_ALTO_SAX;
+        break;
+        case 22: instModel = MODEL_TENOR_SAX;
+        break;
+        case 23: instModel = MODEL_BASS_GUITAR;
+        break;
+    }
+
+    o->header.gfx.sharedChild = gLoadedGraphNodes[instModel];
         o->oFaceAnglePitch = 0;
         o->oFaceAngleRoll = 0;
         cur_obj_scale(0.4f);
         o->oCelebStarUnkF4 = 0;
     }
 #else
-    o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_STAR];
+
+    int instModel;
+    switch (gMarioState->lastCollectedStar) {
+        case 0: instModel = MODEL_DRUM;
+        break;
+        case 1: instModel = MODEL_VIOLONCELLO;
+        break;
+        case 2: instModel = MODEL_VIOLIN;
+        break;
+        case 3: instModel = MODEL_CONTRABASS;
+        break;
+        case 4: instModel = MODEL_VIOLA;
+        break;
+
+        case 16: instModel = MODEL_DRUM;
+        break;
+        case 17: instModel = MODEL_ELEC_GUITAR;
+        break;
+        case 18: instModel = MODEL_PIANO;
+        break;
+        case 19: instModel = MODEL_TRUMPET;
+        break;
+        case 20: instModel = MODEL_TROMBONE;
+        break;
+        case 21: instModel = MODEL_ALTO_SAX;
+        break;
+        case 22: instModel = MODEL_TENOR_SAX;
+        break;
+        case 23: instModel = MODEL_BASS_GUITAR;
+        break;
+    }
+
+    o->header.gfx.sharedChild = gLoadedGraphNodes[instModel];
     cur_obj_scale(0.4f);
     o->oFaceAnglePitch = 0;
     o->oFaceAngleRoll = 0;

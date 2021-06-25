@@ -215,4 +215,46 @@ extern const Collision unknown_seg8_collision_080262F8[];
 
 #include "piano_key/collision_header.h"
 
+#include "starstone/collision_header.h"
+
+#include "starstone/geo_header.h"
+
+#include "drum/geo_header.h"
+
+#include "violoncello/geo_header.h"
+
+#include "violin/geo_header.h"
+
+#include "viola/geo_header.h"
+
+#include "contrabass/geo_header.h"
+
+#include "elec_guitar/geo_header.h"
+
+#include "piano/geo_header.h"
+
+#include "trumpet/geo_header.h"
+
+#include "trombone/geo_header.h"
+
+#include "alto_sax/geo_header.h"
+
+#include "tenor_sax/geo_header.h"
+
+#include "bass_guitar/geo_header.h"
+
+#include "songbi/geo_header.h"
+
+
+#include "songbi/anim_header.h"
+#include "luigi/geo_header.h"
+
+
+#include "luigi/anim_header.h"
+#include "piano/collision_header.h"
+
+#include "broken_piano/collision_header.h"
+
+#include "broken_piano/geo_header.h"
+
 #endif

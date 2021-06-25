@@ -283,3 +283,6 @@ s32 set_obj_anim_with_accel_and_sound(s16 a0, s16 a1, s32 a2) {
 #include "behaviors/beat_push.inc.c"
 #include "behaviors/bowstring.inc.c"
 #include "behaviors/piano_key.inc.c"
+#include "behaviors/starstone.inc.c"
+#include "behaviors/luigi_piano.inc.c"
+#include "behaviors/pipe_summoner.inc.c"

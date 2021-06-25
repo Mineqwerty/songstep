@@ -17,24 +17,24 @@
 #endif
 
 DEFINE_DIALOG(DIALOG_000, 1, 6, 30, 200, _("\
-Wow! You're smack in the\n\
-middle of the battlefield.\n\
-You'll find the Power\n\
-Stars that Bowser stole\n\
-inside the painting\n\
-worlds.\n\
-First, talk to the\n\
-Bob-omb Buddy. (Press [B]\n\
-to talk.) He'll certainly\n\
-help you out, and so will\n\
-his " COMRADES " in other\n\
-areas.\n\
-To read signs, stop, face\n\
-them and press [B]. Press [A]\n\
-or [B] to scroll ahead. You\n\
-can talk to some other\n\
-characters by facing them\n\
-and pressing [B]."))
+Some instruments give you\n\
+a special ability.\n\
+These abilities activate\n\
+when you time them\n\
+with their designated \n\
+instrument in the song.\n\
+You just collected the\n\
+drums, and now can use\n\
+to the Drum Jump!\n\
+To use it, hold Z while\n\
+standing still or hold L \n\
+to enter the Beat Action.\n\
+Then, press [A] when\n\
+the drums in the music\n\
+are playing. \n\
+You'll need to time 3\n\
+[A] presses to perform\n\
+the jump."))
 
 DEFINE_DIALOG(DIALOG_001, 1, 4, 95, 200, _("\
 Watch out! If you wander\n\
@@ -137,19 +137,19 @@ fast! A human blur!\n\
 Here you go--you've won\n\
 it, fair and square!"))
 
-DEFINE_DIALOG(DIALOG_008, 1, 4, 30, 200, _("\
-BEWARE OF CHAIN CHOMP\n\
-Extreme Danger!\n\
-Get close and press [C]^\n\
-for a better look.\n\
-Scary, huh?\n\
-See the Red Coin on top\n\
-of the stake?\n\
-\n\
-When you collect eight of\n\
-them, a Power Star will\n\
-appear in the meadow\n\
-across the bridge."))
+DEFINE_DIALOG(DIALOG_008, 1, 6, 30, 200, _("\
+The Violin lets Mario\n\
+perform the String Slide!\n\
+To use it, enter Beat Mode\n\
+with L or Z again,\n\
+but this time, press [B]\n\
+when the Violin plays.\n\
+This one requires 6 \n\
+timed inputs. Mario\n\
+will fly across the\n\
+land when you succeed.\n\
+Think you can pull \n\
+it off?"))
 
 DEFINE_DIALOG(DIALOG_009, 1, 5, 30, 200, _("\
 Long time, no see! Wow,\n\
@@ -214,24 +214,16 @@ power from the castle.\n\
 Do you want to Save?\n\
 //Yes////No"))
 
-DEFINE_DIALOG(DIALOG_014, 1, 4, 30, 200, _("\
-Wow! Another Power Star!\n\
-Mario gains more courage\n\
-from the power of the\n\
-castle.\n\
+DEFINE_DIALOG(DIALOG_014, 1, 3, 30, 200, _("\
 Do you want to Save?\n\
 \n\
 //You Bet//Not Now"))
 
 DEFINE_DIALOG(DIALOG_015, 1, 4, 30, 200, _("\
-You can punch enemies to\n\
-knock them down. Press [A]\n\
-to jump, [B] to punch.\n\
-Press [A] then [B] to Kick.\n\
-To pick something up,\n\
-press [B], too. To throw\n\
-something you're holding,\n\
-press [B] again."))
+You regained the Drum\n\
+Jump ability!\n\
+\n\
+"))
 
 DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
 Hop on the shiny shell and\n\
@@ -264,15 +256,33 @@ the back and hurl me to\n\
 this royal turf? I think\n\
 that you cannot!"))
 
-DEFINE_DIALOG(DIALOG_018, 1, 4, 30, 200, _("\
-I'm sleeping because...\n\
-...I'm sleepy. I don't\n\
-like being disturbed.\n\
-Please walk quietly."))
+DEFINE_DIALOG(DIALOG_018, 1, 5, 30, 200, _("\
+The Piano lets Mario\n\
+climb up walls!\n\
+To activate it, push\n\
+against a wall and \n\
+press L or Z. \n\
+Press [A] to jump\n\
+across the wall. \n\
+Of course, you still \n\
+need to time it when \n\
+the Piano plays. \n\
+Hold a direction to \n\
+hop that way."))
 
-DEFINE_DIALOG(DIALOG_019, 1, 2, 30, 200, _("\
-Shhh! Please walk\n\
-quietly in the hallway!"))
+DEFINE_DIALOG(DIALOG_019, 1, 4, 30, 200, _("\
+Water problems? The\n\
+Alto Sax makes Mario\n\
+dash fast enough to \n\
+walk on water! \n\
+Enter Beat Mode with \n\
+L or Z, and press [B] \n\
+to activate the dash \n\
+when the Alto Sax plays.\n\
+Mario will slowly lose \n\
+speed while running, \n\
+so keep pressing [B] \n\
+at the right time!"))
 
 DEFINE_DIALOG(DIALOG_020, 1, 6, 95, 150, _("\
 Dear Mario:\n\
@@ -373,106 +383,74 @@ the winner of the race.\n\
 Congrats, Mario!"))
 
 DEFINE_DIALOG(DIALOG_032, 1, 5, 30, 200, _("\
-If you get the Wing Cap,\n\
-you can fly! Put the cap\n\
-on, then do a Triple\n\
-Jump--jump three times\n\
-in a row--to take off.\n\
-You can fly even higher\n\
-if you blast out of a\n\
-cannon wearing the\n\
-Wing Cap!\n\
+Hi\n\
+Go to the left pipe\n\
+first, collect all 5\n\
+stars, then do the\n\
+right pipe.\n\
+PLEASE dont\n\
+do the right pipe\n\
+first\n\
 \n\
-Use the [C] Buttons to look\n\
-around while flying, and\n\
-press [Z] to land."))
+"))
 
-DEFINE_DIALOG(DIALOG_033, 1, 6, 30, 200, _("\
-Ciao! You've reached\n\
-Princess Toadstool's\n\
-castle via a warp pipe.\n\
-Using the controller is a\n\
-piece of cake. Press [A] to\n\
-jump and [B] to attack.\n\
-Press [B] to read signs,\n\
-too. Use the Control Stick\n\
-in the center of the\n\
-controller to move Mario\n\
-around. Now, head for\n\
-the castle."))
+DEFINE_DIALOG(DIALOG_033, 1, 4, 30, 200, _("\
+You've activated the\n\
+level exit podium!\n\
+Stand atop it to \n\
+complete the level!"))
 
 DEFINE_DIALOG(DIALOG_034, 1, 6, 30, 200, _("\
-Good afternoon. The\n\
-Lakitu Bros., here,\n\
-reporting live from just\n\
-outside the Princess's\n\
-castle.\n\
+Hi Mario. Thank you\n\
+for coming here on \n\
+such short notice.\n\
+I am what's known\n\
+as a Songbi, a sort\n\
+of Nimbi.\n\
+Us Songbi are able to\n\
+detect the music of the\n\
+earth and how it flows.\n\
+Recently though, we've\n\
+detected disturbances.\n\
 \n\
-Mario has just arrived\n\
-on the scene, and we'll\n\
-be filming the action live\n\
-as he enters the castle\n\
-and pursues the missing\n\
-Power Stars.\n\
-As seasoned cameramen,\n\
-we'll be shooting from the\n\
-recommended angle, but\n\
-you can change the\n\
-camera angle by pressing\n\
-the [C] Buttons.\n\
-If we can't adjust the\n\
-view any further, we'll\n\
-buzz. To take a look at\n\
-the surroundings, stop\n\
-and press [C]^.\n\
+It appears that two \n\
+worlds have lost their\n\
+music. Without it, the\n\
+land is bleak and sad.\n\
+However, not all hope\n\
+is lost.\n\
+The instruments, the\n\
+very essence of song,\n\
+still remain scattered\n\
+around each world.\n\
+That's why we called\n\
+you here.\n\
+Mario!\n\
+Can we depend on you\n\
+to restore song to\n\
+these lands?\n\
 \n\
-Press [A] to resume play.\n\
-Switch camera modes with\n\
-the [R] Button. Signs along\n\
-the way will review these\n\
-instructions.\n\
-\n\
-For now, reporting live,\n\
-this has been the\n\
-Lakitu Bros."))
+"))
 
-DEFINE_DIALOG(DIALOG_035, 1, 5, 30, 200, _("\
-There are four camera, or\n\
-『[C],』 Buttons. Press [C]^\n\
-to look around using the\n\
-Control Stick.\n\
-\n\
-You'll usually see Mario\n\
-through Lakitu's camera.\n\
-It is the camera\n\
-recommended for normal\n\
-play.\n\
-You can change angles by\n\
-pressing [C]>. If you press\n\
-[R], the view switches to\n\
-Mario's camera, which\n\
-is directly behind him.\n\
-Press [R] again to return\n\
-to Lakitu's camera. Press\n\
-[C]| to see Mario from\n\
-afar, using either\n\
-Lakitu's or Mario's view."))
+DEFINE_DIALOG(DIALOG_035, 1, 6, 30, 200, _("\
+If you ever get tired,\n\
+feel free to exit the\n\
+course and take a break.\n\
+The instruments you\n\
+collected won't go\n\
+anywhere."))
 
 DEFINE_DIALOG(DIALOG_036, 1, 5, 30, 200, _("\
-OBSERVATION PLATFORM\n\
-Press [C]^ to take a look\n\
-around. Don't miss\n\
-anything!\n\
+Coins are great for \n\
+restoring health, but\n\
+past that they won't\n\
+do anything special.\n\
 \n\
-Press [R] to switch to\n\
-Mario's camera. It\n\
-always follows Mario.\n\
-Press [R] again to switch\n\
-to Lakitu's camera.\n\
-Pause the game and\n\
-switch the mode to 『fix』\n\
-the camera in place while\n\
-holding [R]. Give it a try!"))
+No matter how many \n\
+coins you grab, it\n\
+won't make anything\n\
+appear.\n\
+"))
 
 DEFINE_DIALOG(DIALOG_037, 1, 2, 30, 200, _("\
 I win! You lose!\n\
@@ -487,31 +465,25 @@ power, the door slowly\n\
 opens."))
 
 DEFINE_DIALOG(DIALOG_039, 1, 4, 30, 200, _("\
-No visitors allowed,\n\
-by decree of\n\
-the Big Bob-omb\n\
-\n\
-I shall never surrender my\n\
-Stars, for they hold the\n\
-power of the castle in\n\
-their glow.\n\
-They were a gift from\n\
-Bowser, the Koopa King\n\
-himself, and they lie well\n\
-hidden within my realm.\n\
-Not a whisper of their\n\
-whereabouts shall leave\n\
-my lips. Oh, all right,\n\
-perhaps one hint:\n\
-Heed the Star names at\n\
-the beginning of the\n\
-course.\n\
-//--The Big Bob-omb"))
+Make it stop!\n\
+Mario! Some weirdo\n\
+took one of the \n\
+instruments you collected!\n\
+He's awful at it...\n\
+PLEASE silence him...\n\
+one way or another.\n\
+"))
 
 DEFINE_DIALOG(DIALOG_040, 1, 3, 30, 200, _("\
-Warning!\n\
-Cold, Cold Crevasse\n\
-Below!"))
+Wow! You're really in\n\
+tune with the music of\n\
+the world!\n\
+I've opened up the warp\n\
+to the second world\n\
+that lost its music.\n\
+I can't thank you\n\
+enough, Mario.\n\
+Good luck!"))
 
 DEFINE_DIALOG(DIALOG_041, 1, 3, 30, 200, _("\
 I win! You lose!\n\
@@ -523,22 +495,22 @@ Quick.\n\
 Better luck next time!"))
 
 DEFINE_DIALOG(DIALOG_042, 1, 4, 30, 200, _("\
-Caution! Narrow Bridge!\n\
-Cross slowly!\n\
+Phew...\n\
 \n\
 \n\
-You can jump to the edge\n\
-of the cliff and hang on,\n\
-and you can climb off the\n\
-edge if you move slowly.\n\
-When you want to let go,\n\
-either press [Z] or press\n\
-the Control Stick in the\n\
-direction of Mario's back.\n\
-To climb up, press Up on\n\
-the Control Stick. To\n\
-scurry up quickly, press\n\
-the [A] Button."))
+\n\
+Now that that's taken\n\
+care of, I need to\n\
+congratulate you\n\
+Mario!\n\
+You've done a great deed\n\
+in restoring the music\n\
+to those worlds.\n\
+\n\
+As a celebration, us\n\
+Songbis have made a new\n\
+warp to something \n\
+special for you!"))
 
 DEFINE_DIALOG(DIALOG_043, 1, 5, 30, 200, _("\
 If you jump and hold the\n\

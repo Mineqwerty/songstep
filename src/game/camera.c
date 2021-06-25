@@ -1185,6 +1185,19 @@ void mode_8_directions_camera(struct Camera *c) {
         play_sound_cbutton_side();
     }
 
+    else if (gPlayer1Controller->buttonPressed & U_JPAD) {
+        s8DirModeYawOffset = -gMarioState->faceAngle[1]-0x8000;
+    }
+    else if (gPlayer1Controller->buttonDown & L_JPAD) {
+        s8DirModeYawOffset -= DEGREES(2);
+    }
+    else if (gPlayer1Controller->buttonDown & R_JPAD) {
+        s8DirModeYawOffset += DEGREES(2);
+    }
+    else if (gPlayer1Controller->buttonPressed & D_JPAD) {
+        s8DirModeYawOffset = s8DirModeYawOffset&0xE000;
+    }
+
     lakitu_zoom(400.f, 0x900);
     c->nextYaw = update_8_directions_camera(c, c->focus, pos);
     c->pos[0] = pos[0];
@@ -3359,7 +3372,7 @@ void init_camera(struct Camera *c) {
             if (is_within_100_units_of_mario(5408.f, 4500.f, 3637.f) == 1) {
                 start_cutscene(c, CUTSCENE_EXIT_FALL_WMOTR);
             }
-            gLakituState.mode = CAMERA_MODE_FREE_ROAM;
+            gLakituState.mode = CAMERA_MODE_8_DIRECTIONS;
             break;
         case LEVEL_SA:
             marioOffset[2] = 200.f;
