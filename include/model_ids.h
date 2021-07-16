@@ -583,6 +583,8 @@
 #define MODEL_SONGBI          0xF9
 #define MODEL_BROKEN_PIANO          0xF8
 #define MODEL_LUIGI_PLAYING          0xF7
+#define MODEL_COWQUACK         0xF6
+#define MODEL_TORI         0xF5
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

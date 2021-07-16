@@ -369,6 +369,8 @@ struct MarioState
     int pianoSmashed;
     int gameInitialized;
     int recentSave;
+    int creditsStep;
+    int lvl2Cringe;
 };
 
 #endif // TYPES_H

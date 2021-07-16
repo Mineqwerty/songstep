@@ -257,4 +257,12 @@ extern const Collision unknown_seg8_collision_080262F8[];
 
 #include "broken_piano/geo_header.h"
 
+#include "cowquack/geo_header.h"
+
+
+#include "cowquack/anim_header.h"
+#include "tori/geo_header.h"
+
+
+#include "tori/anim_header.h"
 #endif

@@ -1245,7 +1245,7 @@ s32 note_init_for_layer(struct Note *note, struct SequenceChannelLayer *seqLayer
                     break;
                 }
 
-    if (gMarioState->action != ACT_STAR_DANCE_NO_EXIT) {
+    if (gMarioState->action != ACT_STAR_DANCE_NO_EXIT && gMarioState->lvl2Cringe == 10) {
                 if (seqLayer->seqChannel->instOrWave == i && gMarioState->lvlOneStars[instID] == 0) {
                      seqLayer->seqChannel->volume = 0;
                     }

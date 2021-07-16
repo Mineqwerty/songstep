@@ -6180,3 +6180,20 @@ const BehaviorScript bhvPipeSummoner[] = {
         CALL_NATIVE(pipe_summoner_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvCreditsCheckpoint[] = {
+    BEGIN(OBJ_LIST_DEFAULT),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    BEGIN_LOOP(),
+        CALL_NATIVE(credits_checkpoint_loop),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvCreditsNPC[] = {
+    BEGIN(OBJ_LIST_GENACTOR),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    CALL_NATIVE(credits_npc_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(credits_npc_loop),
+    END_LOOP(),
+};

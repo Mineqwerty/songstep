@@ -3363,3 +3363,7 @@ void update_wallcrawl(void) {
         }
     
 }
+
+void update_credits_pos(void) {
+    gMarioObject->header.gfx.pos[2] = gMarioState->pos[2];
+}

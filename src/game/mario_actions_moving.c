@@ -1997,6 +1997,35 @@ s32 act_wallcrawl(struct MarioState *m) {
     return FALSE;
 }
 
+s32 act_credits_walk(struct MarioState *m) {
+    gCamera->cutscene = 1;
+    if (m->creditsStep < 4) {
+    gLakituState.goalPos[0] = m->pos[0] - 1200.0f;
+    gLakituState.goalPos[1] = m->pos[1] + 150.0f;
+    gLakituState.goalPos[2] = m->pos[2];
+    gLakituState.goalFocus[0] = m->pos[0];
+    gLakituState.goalFocus[1] = m->pos[1];
+    gLakituState.goalFocus[2] = m->pos[2];
+    }
+    if (m->creditsStep < 5) {
+    m->faceAngle[1] = 0x4000;
+    m->pos[2] += 8.0f;
+    set_mario_animation(m, MARIO_ANIM_WALKING);
+    update_credits_pos();
+    }
+
+    if (m->creditsStep == 5) {
+        if (gLakituState.goalPos[1] < m->pos[1] + 2000.0f) {
+        gLakituState.goalPos[1] += 20.0f;
+        }
+        else {
+            m->creditsStep = 6;
+        }
+    }
+
+    return FALSE;
+}
+
 s32 quicksand_jump_land_action(struct MarioState *m, s32 animation1, s32 animation2, u32 endAction,
                                u32 airAction) {
     if (m->actionTimer++ < 6) {
@@ -2111,6 +2140,7 @@ s32 mario_execute_moving_action(struct MarioState *m) {
         case ACT_HOLD_QUICKSAND_JUMP_LAND: cancel = act_hold_quicksand_jump_land(m); break;
         case ACT_LONG_JUMP_LAND:           cancel = act_long_jump_land(m);           break;
         case ACT_WALLCRAWL:                cancel = act_wallcrawl(m); break;
+        case ACT_CREDITS_WALK:                cancel = act_credits_walk(m); break;
     }
     /* clang-format on */
 

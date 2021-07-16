@@ -562,6 +562,9 @@ void luigi_piano_loop(void);
 void luigi_playing_loop(void);
 void pipe_summoner_init(void);
 void pipe_summoner_loop(void);
+void credits_checkpoint_loop(void);
+void credits_npc_init(void);
+void credits_npc_loop(void);
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

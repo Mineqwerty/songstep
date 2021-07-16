@@ -303,6 +303,7 @@ s32 piano_hit_detection(u8 instrumentID, s32 trueTrigger);
 s32 sax_hit_detection(u8 instrumentID, s32 trueTrigger);
 s32 fog_flare(u8 fogColor0, u8 fogColor1, u8 fogColor2, int fogDistance, int speedModifier);
 void update_wallcrawl(void);
+void update_credits_pos(void);
 
 #ifndef VERSION_JP
 void cur_obj_spawn_star_at_y_offset(f32 targetX, f32 targetY, f32 targetZ, f32 offsetY);

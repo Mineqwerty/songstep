@@ -47,3 +47,5 @@
 #include "songbi/geo.inc.c"
 #include "luigi/geo.inc.c"
 #include "broken_piano/geo.inc.c"
+#include "cowquack/geo.inc.c"
+#include "tori/geo.inc.c"

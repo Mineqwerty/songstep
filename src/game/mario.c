@@ -1777,6 +1777,9 @@ s32 execute_mario_action(UNUSED struct Object *o) {
     }
 
     if (gCurrLevelNum == LEVEL_CCM) {
+        if (gMarioState->lvl2Cringe < 10) {
+            gMarioState->lvl2Cringe += 1;
+        }
         if (gMarioState->numStars == 5) {
         gFogCloseDist = 50;
         }
@@ -1861,12 +1864,16 @@ s32 execute_mario_action(UNUSED struct Object *o) {
         gFogCloseDist = 0;
         gMarioState->starstoneCutscenes[0] = 0;
         gMarioState->starstoneCutscenes[1] = 0;
+        gMarioState->creditsStep = -1;
+        gMarioState->lvl2Cringe = 0;
     }
-    /*
-    print_text_fmt_int(100, 20, "Close %d", gFogCloseDist);
-    print_text_fmt_int(100, 40, "Dyn %d", gDynamicFogPos);
-*/
+    
+    //print_text_fmt_int(100, 20, "State %d", gMarioState->creditsStep);
 
+
+    if (gCurrLevelNum == LEVEL_WDW) {
+        gMarioState->action = ACT_CREDITS_WALK;
+    }
 
     if (gPlayer1Controller->buttonDown & D_JPAD) {
         //gMarioState->vel[1] = 20.0f;

@@ -29,3 +29,4 @@
 #include "mario/collision.inc.c"
 
 #include "s2dex/fonts/impact.c"
+

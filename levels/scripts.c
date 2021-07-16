@@ -213,6 +213,8 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_SONGBI,      songbi_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BROKEN_PIANO,      broken_piano_geo),
     LOAD_MODEL_FROM_GEO(MODEL_LUIGI_PLAYING,      luigi_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_COWQUACK,      cowquack_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TORI,      tori_geo),
     RETURN(),
 };
 

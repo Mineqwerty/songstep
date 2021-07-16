@@ -19,7 +19,7 @@ void pipe_summoner_loop(void) {
         spawn_object_relative(0x0C, -1225, 100, 2803, o, MODEL_CASTLE_GROUNDS_WARP_PIPE, bhvWarpPipe);
     }
 
-    if (gMarioState->lvlOneStars[10] >= 7 && pipeC == 0) {
+    if (gMarioState->lvlOneStars[10] >= 6 && pipeC == 0) {
         pipeC = 1;
         spawn_object_relative(0x0D, 2825, 100, 1138, o, MODEL_CASTLE_GROUNDS_WARP_PIPE, bhvWarpPipe);
     }

@@ -255,6 +255,7 @@
 #define ACT_BACKFLIP_LAND              0x0400047A // (0x07A | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_FIRST_PERSON)
 #define ACT_BOWSTRING              0x0400047B
 #define ACT_WALLCRAWL              0x0400047C
+#define ACT_CREDITS_WALK             0x0400047D
 
 // group 0x080: airborne actions
 #define ACT_JUMP                       0x03000880 // (0x080 | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION | ACT_FLAG_CONTROL_JUMP_HEIGHT)

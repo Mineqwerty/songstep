@@ -550,5 +550,7 @@ extern const BehaviorScript bhvStarstone[];
 extern const BehaviorScript bhvLuigiPiano[];
 extern const BehaviorScript bhvLuigiPlaying[];
 extern const BehaviorScript bhvPipeSummoner[];
+extern const BehaviorScript bhvCreditsCheckpoint[];
+extern const BehaviorScript bhvCreditsNPC[];
 
 #endif // BEHAVIOR_DATA_H

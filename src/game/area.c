@@ -437,6 +437,38 @@ s2d_init();
         else {
             slidePos = -100;
         }
+
+//CREDITS
+        if (gCurrLevelNum == LEVEL_WDW && gMarioState->creditsStep != -1) {
+            s2d_init();
+
+        uObjMtx *buffero;
+        uObjMtx *buffero2;
+	// substitute with a different alloc function as neccesary
+	buffero = alloc_display_list(0x200 * sizeof(uObjMtx));
+    buffero2 = alloc_display_list(0x200 * sizeof(uObjMtx));
+switch (gMarioState->creditsStep) {
+    case 0: s2d_print(160, 60, 1, DROPSHADOW SCALE "2" COLOR "235 164 52 0" "CREDITS", buffero);
+break;
+    case 1: s2d_print(160, 60, 1, DROPSHADOW SCALE "2" COLOR "200 200 200 0" "AN ORIGINAL HACK BY", buffero);
+    s2d_print(160, 140, 1, DROPSHADOW SCALE "2" COLOR "85 255 0 0" "COWQUACK", buffero2);
+    break;
+    case 2: s2d_print(160, 60, 1, DROPSHADOW SCALE "2" COLOR "200 200 200 0" "ORIGINAL SOUNDTRACK", buffero);
+    s2d_print(160, 140, 1, DROPSHADOW SCALE "2" COLOR "136 27 191 0" "TORI DRAWS STUFF", buffero2);
+    break;
+    case 3: s2d_print(160, 60, 1, DROPSHADOW SCALE "2" COLOR "200 200 200 0" "ADDITIONAL RESOURCES", buffero);
+    s2d_print(160, 140, 1, DROPSHADOW SCALE "1" COLOR "200 200 200 0" "Reonu, Rovert, Axollyon, Someone2639", buffero2);
+    break;
+    case 5: s2d_print(160, 60, 1, DROPSHADOW SCALE "2" COLOR "235 164 52 0" "THE END", buffero);
+break;
+
+}
+
+	// reloads the original microcode; only needed once after all prints
+    s2d_handle_deferred();
+	s2d_stop();
+
+        }
         
         }
         if (gPauseScreenMode != 0) {
